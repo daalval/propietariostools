@@ -58,31 +58,30 @@ nav a {
 nav a:hover, nav a.active { color: #fff; }
 nav a.active { border-bottom: 2px solid var(--amber); padding-bottom: 2px; }
 
-/* ── BREADCRUMB ── */
+/* ── BREADCRUMB — integrado en el hero, sin ruptura visual ── */
 .breadcrumb-wrap {
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  padding: 0.55rem 1.5rem;
+  background: var(--navy);
+  padding: 0.55rem 1.5rem 0;
 }
 .breadcrumb {
   max-width: 900px;
   margin: 0 auto;
-  font-size: 0.79rem;
-  color: var(--muted);
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.45);
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.2rem;
 }
-.breadcrumb a { color: var(--muted); text-decoration: none; }
-.breadcrumb a:hover { color: var(--navy); text-decoration: underline; }
-.bc-sep { color: var(--border); margin: 0 0.15rem; }
-.bc-current { color: var(--text); font-weight: 500; }
+.breadcrumb a { color: rgba(255,255,255,0.5); text-decoration: none; }
+.breadcrumb a:hover { color: rgba(255,255,255,0.85); }
+.bc-sep { color: rgba(255,255,255,0.25); margin: 0 0.1rem; }
+.bc-current { color: rgba(255,255,255,0.75); font-weight: 500; }
 
 /* ── HERO ── */
 .hero {
   background: var(--navy);
-  padding: 2.5rem 1.5rem 3rem;
+  padding: 1.25rem 1.5rem 3rem;
   text-align: center;
 }
 .tool-badge {
