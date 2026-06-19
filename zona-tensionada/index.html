@@ -480,7 +480,7 @@
           <strong>Reglas en zona tensionada:</strong><br>
           La renta del nuevo contrato <strong>no puede superar la del contrato anterior</strong> (actualizada por el índice pactado). Si no hay contrato anterior, se aplica el índice de precios de referencia del MITMA/MIVAU.
           <br><br>
-          <a href="https://www.mivau.gob.es/vivienda/alquiler/zonas-de-mercado-residencial-tensionado" target="_blank" rel="noopener">Verificar en el registro oficial MIVAU →</a>
+          <a href="https://www.mivau.gob.es/vivienda/alquila-bien-es-tu-derecho/serpavi/consultar-zonas-de-mercado-residencial-tensionado" target="_blank" rel="noopener">Verificar en el registro oficial MIVAU →</a>
         </div>
       </div>
 
@@ -492,7 +492,7 @@
         <div class="detail">
           Puedes actualizar el alquiler con el <strong>IRAV</strong> (contratos post-26/05/2023) o el <strong>IPC</strong> (contratos anteriores), según la cláusula de revisión del contrato. Usa la calculadora de la derecha.
           <br><br>
-          <a href="https://www.mivau.gob.es/vivienda/alquiler/zonas-de-mercado-residencial-tensionado" target="_blank" rel="noopener">Confirmar en el registro oficial MIVAU →</a>
+          <a href="https://www.mivau.gob.es/vivienda/alquila-bien-es-tu-derecho/serpavi/consultar-zonas-de-mercado-residencial-tensionado" target="_blank" rel="noopener">Confirmar en el registro oficial MIVAU →</a>
         </div>
       </div>
 
@@ -500,9 +500,9 @@
       <div class="result-box result-notfound" id="resultNotFound">
         <div class="result-pill pill-gray">Municipio no encontrado</div>
         <h3>No encontramos ese municipio</h3>
-        <p>No figura en nuestra base de datos. Los municipios declarados zona tensionada son 307, ubicados principalmente en Cataluña y País Vasco. Verifica directamente en el registro oficial.</p>
+        <p>No figura en nuestra base de datos. Los municipios declarados zona tensionada son 310, repartidos en cuatro comunidades autónomas: Cataluña, País Vasco, Navarra y Galicia. Verifica directamente en el registro oficial.</p>
         <div class="detail">
-          <a href="https://www.mivau.gob.es/vivienda/alquiler/zonas-de-mercado-residencial-tensionado" target="_blank" rel="noopener">Consultar registro oficial MIVAU →</a>
+          <a href="https://www.mivau.gob.es/vivienda/alquila-bien-es-tu-derecho/serpavi/consultar-zonas-de-mercado-residencial-tensionado" target="_blank" rel="noopener">Consultar registro oficial MIVAU →</a>
         </div>
       </div>
     </div>
@@ -579,7 +579,7 @@
 
     <div class="faq-item">
       <h3>¿Qué es una zona de mercado residencial tensionado?</h3>
-      <p>Es un ámbito territorial declarado oficialmente por la comunidad autónoma correspondiente cuando el coste del alquiler o hipoteca supera el <strong>30% de la renta media de los hogares</strong>, o cuando los precios han subido más de 3 puntos sobre el IPC en los últimos 5 años. A junio de 2026, <strong>307 municipios</strong> están declarados, concentrados principalmente en Cataluña (271 municipios) y País Vasco (Bilbao).</p>
+      <p>Es un ámbito territorial declarado oficialmente por la comunidad autónoma correspondiente cuando el coste del alquiler o hipoteca supera el <strong>30% de la renta media de los hogares</strong>, o cuando los precios han subido más de 3 puntos sobre el IPC en los últimos 5 años. A junio de 2026, <strong>310 municipios</strong> están declarados en cuatro comunidades autónomas: <strong>Cataluña (271)</strong>, <strong>País Vasco (17)</strong>, <strong>Navarra (21)</strong> y <strong>Galicia (A Coruña)</strong>. Madrid, Valencia y Andalucía no han activado el mecanismo a día de hoy.</p>
     </div>
 
     <div class="faq-item">
@@ -627,134 +627,91 @@
 // País Vasco: Bilbao (declarada, índice pendiente de operatividad)
 // ─────────────────────────────────────────
 const MUNICIPIOS = [
-  // CATALUÑA — Provincia de Barcelona
-  { n:"Barcelona",                    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"L'Hospitalet de Llobregat",    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Badalona",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Terrassa",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sabadell",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Mataró",                       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Santa Coloma de Gramenet",     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Cornellà de Llobregat",        p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Boi de Llobregat",        p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Rubí",                         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Castelldefels",                p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Viladecans",                   p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Cerdanyola del Vallès",        p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Mollet del Vallès",            p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"El Prat de Llobregat",         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Gavà",                         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Esplugues de Llobregat",       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Granollers",                   p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Manresa",                      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Vilanova i la Geltrú",         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Martorell",                    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Cugat del Vallès",        p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Barberà del Vallès",           p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Ripollet",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Adrià de Besòs",          p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Premià de Mar",                p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"El Masnou",                    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Montgat",                      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Andreu de la Barca",      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Feliu de Llobregat",      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Joan Despí",              p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Molins de Rei",                p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"El Papiol",                    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Santa Coloma de Cervelló",     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Cervelló",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"La Palma de Cervelló",         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Corbera de Llobregat",         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Begues",                       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Pallejà",                      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Torrelles de Llobregat",       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Just Desvern",            p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Vicenç dels Horts",       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Collbató",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Montcada i Reixac",            p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Badia del Vallès",             p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Quirze del Vallès",       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Castellar del Vallès",         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sentmenat",                    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Polinyà",                      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Palau-solità i Plegamans",     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Santa Perpètua de Mogoda",     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"La Llagosta",                  p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Montmeló",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Montornès del Vallès",         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Parets del Vallès",            p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Les Franqueses del Vallès",    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"La Garriga",                   p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Cardedeu",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Arenys de Mar",                p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Canet de Mar",                 p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Andreu de Llavaneres",    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Vicenç de Montalt",       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Calella",                      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Pineda de Mar",                p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Malgrat de Mar",               p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Palafolls",                    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Tordera",                      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Arenys de Munt",               p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Caldes de Montbui",            p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Celoni",                  p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Llinars del Vallès",           p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sitges",                       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Igualada",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Vic",                          p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Berga",                        p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Abrera",                       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Olesa de Montserrat",          p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Vallromanes",                  p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Martorelles",                  p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Climent de Llobregat",    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
-  // CATALUÑA — Provincia de Girona
-  { n:"Girona",                       p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Salt",                         p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Lloret de Mar",                p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Blanes",                       p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Figueres",                     p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Olot",                         p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Platja d'Aro",                 p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Roses",                        p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Sant Feliu de Guíxols",        p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Palafrugell",                  p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Palamós",                      p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Banyoles",                     p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Ripoll",                       p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Santa Coloma de Farners",      p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Cassà de la Selva",            p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Llagostera",                   p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Caldes de Malavella",          p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Vidreres",                     p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Torroella de Montgrí",         p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
-  // CATALUÑA — Provincia de Tarragona
-  { n:"Tarragona",                    p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Reus",                         p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Cambrils",                     p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Salou",                        p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Vila-seca",                    p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Valls",                        p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"El Vendrell",                  p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Calafell",                     p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Cunit",                        p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Torredembarra",                p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Altafulla",                    p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Amposta",                      p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Tortosa",                      p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Constantí",                    p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"La Canonja",                   p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Creixell",                     p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Roda de Berà",                 p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
-  // CATALUÑA — Provincia de Lleida
-  { n:"Lleida",                       p:"Lleida",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Tàrrega",                      p:"Lleida",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Balaguer",                     p:"Lleida",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"Mollerussa",                   p:"Lleida",    c:"Cataluña", t:true, d:"2024-03" },
-  { n:"La Seu d'Urgell",              p:"Lleida",    c:"Cataluña", t:true, d:"2024-03" },
-  // PAÍS VASCO
-  { n:"Bilbao",                       p:"Bizkaia",   c:"País Vasco", t:true, d:"2026-01",
-    nota:"Declarada zona tensionada. El índice de precios de referencia está pendiente de publicación oficial para su plena operatividad." },
+  // ═══════════════════════════════════════════════════════
+  // CATALUÑA — 271 municipios (Resolución 14/03/2024 + 08/10/2024)
+  // Fuente: mivau.gob.es/vivienda/alquila-bien-es-tu-derecho/serpavi/consultar-zonas-de-mercado-residencial-tensionado
+  // ═══════════════════════════════════════════════════════
+  // Resolución 14/03/2024 (131 municipios)
+  ...["Abrera","Alella","Amposta","Arenys de Mar","Arenys de Munt","Argentona","Badalona","Badia del Vallès",
+    "Balaguer","Banyoles","Barberà del Vallès","Barcelona","Berga","la Bisbal d'Empordà","Blanes","Cabrera de Mar",
+    "Cabrils","Caldes de Montbui","Caldes d'Estrac","Calella","Calldetenes","Cambrils","Canet de Mar","la Canonja",
+    "Canovelles","Cardedeu","Castellar del Vallès","Castellbisbal","Castelldefels","Cerdanyola del Vallès","Cervelló",
+    "Cervera","Corbera de Llobregat","Cornellà de Llobregat","Cubelles","Esparreguera","Esplugues de Llobregat",
+    "Falset","Figueres","les Franqueses del Vallès","la Garriga","Gavà","Girona","Granollers","Guissona",
+    "l'Hospitalet de Llobregat","Igualada","la Llagosta","Lleida","Llinars del Vallès","Lloret de Mar","Malgrat de Mar",
+    "Manlleu","Manresa","el Masnou","Matadepera","Mataró","Molins de Rei","Mollerussa","Mollet del Vallès",
+    "Montcada i Reixac","Montgat","Montmeló","Montornès del Vallès","Móra la Nova","Olesa de Montserrat","Olot",
+    "Palafolls","Palafrugell","Palamós","Palau-solità i Plegamans","el Papiol","Parets del Vallès","Pineda de Mar",
+    "Polinyà","Porqueres","el Prat de Llobregat","Premià de Dalt","Premià de Mar","Puigcerdà","Reus","Ripoll",
+    "Ripollet","la Roca del Vallès","Roquetes","Rubí","Sabadell","Salou","Salt","Sant Adrià de Besòs",
+    "Sant Andreu de Llavaneres","Sant Boi de Llobregat","Sant Celoni","Sant Climent de Llobregat","Sant Cugat del Vallès",
+    "Sant Esteve Sesrovires","Sant Feliu de Guíxols","Sant Feliu de Llobregat","Sant Fost de Campsentelles",
+    "Sant Fruitós de Bages","Sant Joan Despí","Sant Just Desvern","Sant Pere de Ribes","Sant Pol de Mar",
+    "Sant Quirze del Vallès","Sant Sadurní d'Anoia","Sant Vicenç de Montalt","Sant Vicenç dels Horts",
+    "Santa Coloma de Cervelló","Santa Coloma de Farners","Santa Coloma de Gramenet","Santa Margarida de Montbui",
+    "Santa Perpètua de Mogoda","Santa Susanna","Sarrià de Ter","la Seu d'Urgell","Sitges","Solsona","Sort","Tarragona",
+    "Tàrrega","Teià","Terrassa","Tiana","Tona","Torelló","Torredembarra","Torrelles de Llobregat","Tortosa","Tremp",
+    "Vallirana","Valls","el Vendrell","Vic","Viladecans","Vilafranca del Penedès","Vilanova del Camí",
+    "Vilanova i la Geltrú","Vilassar de Dalt","Vilassar de Mar"
+  ].map(n => ({ n, p:"Cataluña", c:"Cataluña", t:true, d:"2024-03" })),
+
+  // Resolución 08/10/2024 (140 municipios)
+  ...["Aiguafreda","Albinyana","Alcanar","Alcarràs","Alcover","l'Aldea","Almacelles","Alpicat","Altafulla",
+    "l'Ametlla de Mar","l'Ametlla del Vallès","l'Ampolla","Anglès","l'Arboç","Arbúcies","Artés","Artesa de Segre",
+    "Bagà","Begues","Begur","Bellpuig","Bellver de Cerdanya","Besalú","Bigues i Riells del Fai","la Bisbal del Penedès",
+    "les Borges Blanques","Breda","Cadaqués","Calaf","Calafell","Caldes de Malavella","Calonge i Sant Antoni",
+    "Canyelles","Cassà de la Selva","Castellet i la Gornal","Castellgalí","Castelló d'Empúries",
+    "Castell d'Aro, Platja d'Aro i S'Agaró","Castellterçol","Celrà","Centelles","Creixell","Cunit","Deltebre","Dosrius",
+    "l'Escala","l'Esquirol","Folgueroles","Fornells de la Selva","Gelida","Gironella","Hostalric","Linyola","Llançà",
+    "Lliçà d'Amunt","Lliçà de Vall","Maçanet de la Selva","Masquefa","Moià","Monistrol de Montserrat","Montblanc",
+    "Montbrió del Camp","Mont-roig del Camp","Móra d'Ebre","el Morell","Navàs","Òdena","Olèrdola",
+    "Olesa de Bonesvalls","Olivella","Pallejà","la Palma de Cervelló","Pals","Peralada","Piera",
+    "la Pobla de Montornès","el Pont de Suert","Ponts","Prats de Lluçanès","Puig-reig","la Ràpita",
+    "Riells i Viabrea","Riudarenes","Riudoms","Roda de Berà","Roda de Ter","Roses","Sant Antoni de Vilamajor",
+    "Sant Cebrià de Vallalta","Sant Esteve de Palautordera","Sant Feliu de Codines","Sant Hipòlit de Voltregà",
+    "Sant Jaume dels Domenys","Sant Jaume d'Enveja","Sant Joan de Vilatorrada","Sant Julià de Ramis",
+    "Sant Llorenç d'Hortons","Sant Llorenç Savall","Sant Martí Sarroca","Sant Pere de Riudebitlles",
+    "Sant Pere de Torelló","Sant Pere de Vilamajor","Sant Pere Pescador","Sant Quirze de Besora","Santa Bàrbara",
+    "Santa Coloma de Queralt","Santa Cristina d'Aro","Santa Eulàlia de Ronçana","Santa Maria de Palautordera",
+    "Santa Oliva","Santpedor","la Selva del Camp","la Sénia","Sentmenat","Seva","Sils","Súria","Taradell",
+    "Torrelles de Foix","Torroella de Montgrí","Tossa de Mar","Ulldecona","Vacarisses","Vallgorguina","Vidreres",
+    "Vielha e Mijaran","Viladecavalls","Vilafant","Vilanova del Vallès","Vilobí d'Onyar","Vinyols i els Arcs"
+  ].map(n => ({ n, p:"Cataluña", c:"Cataluña", t:true, d:"2024-10" })),
+
+  // ═══════════════════════════════════════════════════════
+  // PAÍS VASCO — 17 municipios (declarados en 6 resoluciones distintas, 2025-2026)
+  // ═══════════════════════════════════════════════════════
+  { n:"Errenteria",            p:"Gipuzkoa", c:"País Vasco", t:true, d:"2025-01" },
+  { n:"Lasarte-Oria",          p:"Gipuzkoa", c:"País Vasco", t:true, d:"2025-04" },
+  { n:"Zumaia",                p:"Gipuzkoa", c:"País Vasco", t:true, d:"2025-04" },
+  { n:"Barakaldo",             p:"Bizkaia",  c:"País Vasco", t:true, d:"2025-04" },
+  { n:"Irun",                  p:"Gipuzkoa", c:"País Vasco", t:true, d:"2025-04" },
+  { n:"Galdakao",              p:"Bizkaia",  c:"País Vasco", t:true, d:"2025-07", nota:"Declarada solo en el Distrito 2 del municipio." },
+  { n:"Donostia/San Sebastián",p:"Gipuzkoa", c:"País Vasco", t:true, d:"2025-07" },
+  { n:"Astigarraga",           p:"Gipuzkoa", c:"País Vasco", t:true, d:"2025-10" },
+  { n:"Bilbao",                p:"Bizkaia",  c:"País Vasco", t:true, d:"2025-10" },
+  { n:"Usurbil",               p:"Gipuzkoa", c:"País Vasco", t:true, d:"2025-10" },
+  { n:"Vitoria-Gasteiz",       p:"Álava",    c:"País Vasco", t:true, d:"2025-10", nota:"Excepto la zona rural constituida por entidades locales menores no incluida en la trama urbana." },
+  { n:"Hernani",               p:"Gipuzkoa", c:"País Vasco", t:true, d:"2026-02" },
+  { n:"Lezo",                  p:"Gipuzkoa", c:"País Vasco", t:true, d:"2026-02" },
+  { n:"Tolosa",                p:"Gipuzkoa", c:"País Vasco", t:true, d:"2026-02" },
+  { n:"Pasaia",                p:"Gipuzkoa", c:"País Vasco", t:true, d:"2026-04" },
+  { n:"Zestoa",                p:"Gipuzkoa", c:"País Vasco", t:true, d:"2026-04" },
+  { n:"Arrasate/Mondragón",    p:"Gipuzkoa", c:"País Vasco", t:true, d:"2026-04" },
+
+  // ═══════════════════════════════════════════════════════
+  // NAVARRA — 21 municipios (Resolución 28/07/2025, en vigor hasta 30/07/2028)
+  // ═══════════════════════════════════════════════════════
+  ...["Pamplona/Iruña","Tudela","Valle de Egüés/Eguesibar","Burlada/Burlata","Barañáin/Barañain","Zizur Mayor",
+    "Estella-Lizarra","Aranguren","Berriozar","Tafalla","Ansoáin/Antsoain","Villava/Atarrabia","Corella",
+    "Valle de Elorz/Elortzibar","Cintruénigo","Baztan","Altsasu/Alsasua","Huarte/Uharte","Berrioplano/Berriobeiti",
+    "San Adrián","Peralta/Azkoien"
+  ].map(n => ({ n, p:"Navarra", c:"Navarra", t:true, d:"2025-07" })),
+
+  // ═══════════════════════════════════════════════════════
+  // GALICIA — 1 municipio (Resolución 28/07/2025)
+  // ═══════════════════════════════════════════════════════
+  { n:"A Coruña", p:"A Coruña", c:"Galicia", t:true, d:"2025-07" },
 ];
 
 // ─────────────────────────────────────────
