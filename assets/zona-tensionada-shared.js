@@ -83,6 +83,90 @@ const MUNICIPIOS = [
   { n:"A Coruña", p:"A Coruña", c:"Galicia", t:true, d:"2025-07" },
 ];
 
+// ── PROVINCIA REAL PARA MUNICIPIOS CATALANES ──────────────────────────────────
+// Corrige p:"Cataluña" → provincia real (Barcelona / Girona / Tarragona / Lleida).
+const PROVINCIA_CATALUNYA = {
+  // Barcelona (159)
+  "Abrera":"Barcelona","Alella":"Barcelona","Arenys de Mar":"Barcelona","Arenys de Munt":"Barcelona",
+  "Argentona":"Barcelona","Badalona":"Barcelona","Badia del Vallès":"Barcelona","Barberà del Vallès":"Barcelona",
+  "Barcelona":"Barcelona","Berga":"Barcelona","Cabrera de Mar":"Barcelona","Cabrils":"Barcelona",
+  "Caldes de Montbui":"Barcelona","Caldes d'Estrac":"Barcelona","Calella":"Barcelona","Calldetenes":"Barcelona",
+  "Canet de Mar":"Barcelona","Canovelles":"Barcelona","Cardedeu":"Barcelona","Castellar del Vallès":"Barcelona",
+  "Castellbisbal":"Barcelona","Castelldefels":"Barcelona","Cerdanyola del Vallès":"Barcelona","Cervelló":"Barcelona",
+  "Corbera de Llobregat":"Barcelona","Cornellà de Llobregat":"Barcelona","Cubelles":"Barcelona",
+  "Esparreguera":"Barcelona","Esplugues de Llobregat":"Barcelona","les Franqueses del Vallès":"Barcelona",
+  "la Garriga":"Barcelona","Gavà":"Barcelona","Granollers":"Barcelona","l'Hospitalet de Llobregat":"Barcelona",
+  "Igualada":"Barcelona","la Llagosta":"Barcelona","Llinars del Vallès":"Barcelona","Malgrat de Mar":"Barcelona",
+  "Manlleu":"Barcelona","Manresa":"Barcelona","el Masnou":"Barcelona","Matadepera":"Barcelona","Mataró":"Barcelona",
+  "Molins de Rei":"Barcelona","Mollet del Vallès":"Barcelona","Montcada i Reixac":"Barcelona","Montgat":"Barcelona",
+  "Montmeló":"Barcelona","Montornès del Vallès":"Barcelona","Olesa de Montserrat":"Barcelona","Palafolls":"Barcelona",
+  "Palau-solità i Plegamans":"Barcelona","el Papiol":"Barcelona","Parets del Vallès":"Barcelona",
+  "Pineda de Mar":"Barcelona","Polinyà":"Barcelona","el Prat de Llobregat":"Barcelona","Premià de Dalt":"Barcelona",
+  "Premià de Mar":"Barcelona","Ripollet":"Barcelona","la Roca del Vallès":"Barcelona","Rubí":"Barcelona",
+  "Sabadell":"Barcelona","Sant Adrià de Besòs":"Barcelona","Sant Andreu de Llavaneres":"Barcelona",
+  "Sant Boi de Llobregat":"Barcelona","Sant Celoni":"Barcelona","Sant Climent de Llobregat":"Barcelona",
+  "Sant Cugat del Vallès":"Barcelona","Sant Esteve Sesrovires":"Barcelona","Sant Feliu de Llobregat":"Barcelona",
+  "Sant Fost de Campsentelles":"Barcelona","Sant Fruitós de Bages":"Barcelona","Sant Joan Despí":"Barcelona",
+  "Sant Just Desvern":"Barcelona","Sant Pere de Ribes":"Barcelona","Sant Pol de Mar":"Barcelona",
+  "Sant Quirze del Vallès":"Barcelona","Sant Sadurní d'Anoia":"Barcelona","Sant Vicenç de Montalt":"Barcelona",
+  "Sant Vicenç dels Horts":"Barcelona","Santa Coloma de Cervelló":"Barcelona","Santa Coloma de Gramenet":"Barcelona",
+  "Santa Margarida de Montbui":"Barcelona","Santa Perpètua de Mogoda":"Barcelona","Santa Susanna":"Barcelona",
+  "Sitges":"Barcelona","Teià":"Barcelona","Terrassa":"Barcelona","Tiana":"Barcelona","Tona":"Barcelona",
+  "Torelló":"Barcelona","Torrelles de Llobregat":"Barcelona","Vallirana":"Barcelona","Vic":"Barcelona",
+  "Viladecans":"Barcelona","Vilafranca del Penedès":"Barcelona","Vilanova del Camí":"Barcelona",
+  "Vilanova i la Geltrú":"Barcelona","Vilassar de Dalt":"Barcelona","Vilassar de Mar":"Barcelona",
+  "Aiguafreda":"Barcelona","l'Ametlla del Vallès":"Barcelona","Artés":"Barcelona","Bagà":"Barcelona",
+  "Begues":"Barcelona","Bigues i Riells del Fai":"Barcelona","Calaf":"Barcelona","Canyelles":"Barcelona",
+  "Castellet i la Gornal":"Barcelona","Castellgalí":"Barcelona","Castellterçol":"Barcelona","Centelles":"Barcelona",
+  "Dosrius":"Barcelona","l'Esquirol":"Barcelona","Folgueroles":"Barcelona","Gelida":"Barcelona",
+  "Gironella":"Barcelona","Lliçà d'Amunt":"Barcelona","Lliçà de Vall":"Barcelona","Masquefa":"Barcelona",
+  "Moià":"Barcelona","Monistrol de Montserrat":"Barcelona","Navàs":"Barcelona","Òdena":"Barcelona",
+  "Olèrdola":"Barcelona","Olesa de Bonesvalls":"Barcelona","Olivella":"Barcelona","Pallejà":"Barcelona",
+  "la Palma de Cervelló":"Barcelona","Piera":"Barcelona","Prats de Lluçanès":"Barcelona","Puig-reig":"Barcelona",
+  "Roda de Ter":"Barcelona","Sant Antoni de Vilamajor":"Barcelona","Sant Cebrià de Vallalta":"Barcelona",
+  "Sant Esteve de Palautordera":"Barcelona","Sant Feliu de Codines":"Barcelona","Sant Hipòlit de Voltregà":"Barcelona",
+  "Sant Joan de Vilatorrada":"Barcelona","Sant Llorenç d'Hortons":"Barcelona","Sant Llorenç Savall":"Barcelona",
+  "Sant Martí Sarroca":"Barcelona","Sant Pere de Riudebitlles":"Barcelona","Sant Pere de Torelló":"Barcelona",
+  "Sant Pere de Vilamajor":"Barcelona","Sant Quirze de Besora":"Barcelona","Santa Eulàlia de Ronçana":"Barcelona",
+  "Santa Maria de Palautordera":"Barcelona","Santpedor":"Barcelona","Sentmenat":"Barcelona","Seva":"Barcelona",
+  "Súria":"Barcelona","Taradell":"Barcelona","Torrelles de Foix":"Barcelona","Vacarisses":"Barcelona",
+  "Vallgorguina":"Barcelona","Viladecavalls":"Barcelona","Vilanova del Vallès":"Barcelona",
+  // Girona (47)
+  "la Bisbal d'Empordà":"Girona","Blanes":"Girona","Banyoles":"Girona","Figueres":"Girona","Girona":"Girona",
+  "Lloret de Mar":"Girona","Olot":"Girona","Palafrugell":"Girona","Palamós":"Girona","Porqueres":"Girona",
+  "Puigcerdà":"Girona","Ripoll":"Girona","Salt":"Girona","Sant Feliu de Guíxols":"Girona",
+  "Santa Coloma de Farners":"Girona","Sarrià de Ter":"Girona","Anglès":"Girona","Arbúcies":"Girona",
+  "Begur":"Girona","Besalú":"Girona","Breda":"Girona","Cadaqués":"Girona","Caldes de Malavella":"Girona",
+  "Calonge i Sant Antoni":"Girona","Cassà de la Selva":"Girona","Castelló d'Empúries":"Girona",
+  "Castell d'Aro, Platja d'Aro i S'Agaró":"Girona","Celrà":"Girona","l'Escala":"Girona",
+  "Fornells de la Selva":"Girona","Hostalric":"Girona","Llançà":"Girona","Maçanet de la Selva":"Girona",
+  "Pals":"Girona","Peralada":"Girona","Riells i Viabrea":"Girona","Riudarenes":"Girona","Roses":"Girona",
+  "Sant Julià de Ramis":"Girona","Sant Pere Pescador":"Girona","Santa Cristina d'Aro":"Girona","Sils":"Girona",
+  "Torroella de Montgrí":"Girona","Tossa de Mar":"Girona","Vidreres":"Girona","Vilafant":"Girona","Vilobí d'Onyar":"Girona",
+  // Tarragona (44)
+  "Amposta":"Tarragona","Cambrils":"Tarragona","la Canonja":"Tarragona","Falset":"Tarragona",
+  "Móra la Nova":"Tarragona","Reus":"Tarragona","Roquetes":"Tarragona","Salou":"Tarragona",
+  "Tarragona":"Tarragona","Torredembarra":"Tarragona","Tortosa":"Tarragona","Valls":"Tarragona",
+  "el Vendrell":"Tarragona","Albinyana":"Tarragona","Alcanar":"Tarragona","Alcover":"Tarragona",
+  "l'Aldea":"Tarragona","Altafulla":"Tarragona","l'Ametlla de Mar":"Tarragona","l'Ampolla":"Tarragona",
+  "l'Arboç":"Tarragona","la Bisbal del Penedès":"Tarragona","Calafell":"Tarragona","Creixell":"Tarragona",
+  "Cunit":"Tarragona","Deltebre":"Tarragona","Montblanc":"Tarragona","Montbrió del Camp":"Tarragona",
+  "Mont-roig del Camp":"Tarragona","Móra d'Ebre":"Tarragona","el Morell":"Tarragona",
+  "la Pobla de Montornès":"Tarragona","la Ràpita":"Tarragona","Riudoms":"Tarragona","Roda de Berà":"Tarragona",
+  "Sant Jaume dels Domenys":"Tarragona","Sant Jaume d'Enveja":"Tarragona","Santa Bàrbara":"Tarragona",
+  "Santa Coloma de Queralt":"Tarragona","Santa Oliva":"Tarragona","la Selva del Camp":"Tarragona",
+  "la Sénia":"Tarragona","Ulldecona":"Tarragona","Vinyols i els Arcs":"Tarragona",
+  // Lleida (21)
+  "Balaguer":"Lleida","Cervera":"Lleida","Guissona":"Lleida","Lleida":"Lleida","Mollerussa":"Lleida",
+  "la Seu d'Urgell":"Lleida","Solsona":"Lleida","Sort":"Lleida","Tàrrega":"Lleida","Tremp":"Lleida",
+  "Alcarràs":"Lleida","Almacelles":"Lleida","Alpicat":"Lleida","Artesa de Segre":"Lleida","Bellpuig":"Lleida",
+  "Bellver de Cerdanya":"Lleida","les Borges Blanques":"Lleida","Linyola":"Lleida","el Pont de Suert":"Lleida",
+  "Ponts":"Lleida","Vielha e Mijaran":"Lleida",
+};
+MUNICIPIOS.forEach(m => {
+  if (m.c === 'Cataluña' && PROVINCIA_CATALUNYA[m.n]) m.p = PROVINCIA_CATALUNYA[m.n];
+});
+
 // ── IRAV — Valores mensuales publicados por el INE ────────────────────────────
 // Actualizar cada mes cuando el INE publique el nuevo dato.
 const IRAV = {
