@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Reducción IRPF Alquiler 2026: ¿50%, 60%, 70% o 90%? | PropietariosTools</title>
+  <meta name="description" content="Descubre qué porcentaje de reducción IRPF te corresponde como propietario que alquila vivienda. Árbol de decisión gratuito basado en la Ley 12/2023: 50%, 60%, 70% o 90%.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://propietariostools.es/reduccion-irpf-alquiler/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <meta property="og:title" content="Calculadora Reducción IRPF Alquiler: ¿50%, 60%, 70% o 90%?">
+  <meta property="og:description" content="Árbol de decisión gratuito para propietarios. Calcula tu reducción IRPF exacta en 2 minutos.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://propietariostools.es/reduccion-irpf-alquiler/">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1E3A5F;
+      --navy-d: #152B47;
+      --amber:  #E8A020;
+      --green:  #0F7A44;
+      --red:    #C0392B;
+      --bg:     #F5F4F0;
+      --card:   #FFFFFF;
+      --text:   #0F172A;
+      --muted:  #64748B;
+      --border: #E2E0D8;
+      --radius: 10px;
+      --font-h: 'Space Grotesk', sans-serif;
+      --font-b: 'Inter', sans-serif;
+    }
+
+    body { font-family: var(--font-b); background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--navy);
+      padding: 0 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .logo { font-family: var(--font-h); font-weight: 700; font-size: 1rem; color: #fff; text-decoration: none; letter-spacing: -0.02em; }
+    .logo span { color: var(--amber); }
+    nav ul { list-style: none; display: flex; gap: 1.5rem; }
+    nav a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color .15s; }
+    nav a:hover, nav a.active { color: #fff; }
+    nav a.active { border-bottom: 2px solid var(--amber); padding-bottom: 2px; }
+
+    /* ── HERO ── */
+    .hero { background: var(--navy); padding: 2.5rem 1.5rem 3rem; text-align: center; }
+    .tool-badge {
+      display: inline-block; background: rgba(232,160,32,0.2); color: var(--amber);
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.25rem 0.75rem; border-radius: 100px; margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: var(--font-h); font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 700;
+      color: #fff; line-height: 1.2; max-width: 680px; margin: 0 auto 0.75rem; letter-spacing: -0.02em;
+    }
+    .hero p { color: rgba(255,255,255,0.65); font-size: 1rem; max-width: 540px; margin: 0 auto; }
+
+    /* ── MAIN ── */
+    .main { max-width: 740px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+    /* ── WIZARD ── */
+    .wizard-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 4px; background: var(--border);
+      position: relative; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: var(--amber);
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    .step {
+      padding: 2rem 1.75rem;
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+    .step.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    .step-meta {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1rem;
+    }
+    .step-num {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--navy); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700;
+    }
+
+    .step h2 {
+      font-family: var(--font-h); font-size: 1.2rem; font-weight: 700;
+      color: var(--text); margin-bottom: 0.5rem; line-height: 1.35;
+    }
+    .step .sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem; }
+
+    /* Opciones tipo radio */
+    .options { display: flex; flex-direction: column; gap: 0.75rem; }
+    .option {
+      border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 1rem 1.25rem; cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      display: flex; align-items: flex-start; gap: 0.75rem;
+    }
+    .option:hover { border-color: var(--navy); background: #F8F8FF; }
+    .option.selected { border-color: var(--navy); background: #EFF3FB; }
+    .option-radio {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid var(--border); flex-shrink: 0;
+      margin-top: 2px; transition: all 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .option.selected .option-radio {
+      border-color: var(--navy); background: var(--navy);
+    }
+    .option.selected .option-radio::after {
+      content: ''; width: 8px; height: 8px;
+      border-radius: 50%; background: #fff;
+    }
+    .option-text strong { display: block; font-size: 0.95rem; font-weight: 600; color: var(--text); }
+    .option-text span { font-size: 0.82rem; color: var(--muted); }
+
+    /* Inputs de cálculo */
+    .calc-group { margin-bottom: 1.25rem; }
+    .calc-group label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .calc-group .hint { color: var(--muted); font-weight: 400; }
+    .input-euro {
+      position: relative;
+    }
+    .input-euro input {
+      width: 100%; padding: 0.7rem 2.5rem 0.7rem 0.9rem;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-family: var(--font-b); font-size: 1rem; color: var(--text);
+      -webkit-appearance: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .input-euro input:focus {
+      outline: none; border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(30,58,95,0.1);
+    }
+    .input-euro::after {
+      content: '€'; position: absolute; right: 0.9rem; top: 50%;
+      transform: translateY(-50%); color: var(--muted); font-size: 0.9rem;
+      pointer-events: none;
+    }
+
+    /* Botones de navegación */
+    .step-actions { display: flex; gap: 0.75rem; margin-top: 1.75rem; }
+    .btn-back {
+      padding: 0.7rem 1.25rem; background: none; border: 1.5px solid var(--border);
+      border-radius: 8px; font-family: var(--font-h); font-size: 0.9rem;
+      font-weight: 600; color: var(--muted); cursor: pointer; transition: all .15s;
+    }
+    .btn-back:hover { border-color: var(--navy); color: var(--navy); }
+    .btn-next {
+      flex: 1; padding: 0.75rem 1.25rem; background: var(--navy); border: none;
+      border-radius: 8px; font-family: var(--font-h); font-size: 0.95rem;
+      font-weight: 600; color: #fff; cursor: pointer; transition: background .15s;
+    }
+    .btn-next:hover { background: var(--navy-d); }
+    .btn-next:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+
+    .btn-reset {
+      width: 100%; padding: 0.65rem; background: none; border: 1.5px solid var(--border);
+      border-radius: 8px; font-family: var(--font-h); font-size: 0.85rem;
+      font-weight: 600; color: var(--muted); cursor: pointer; margin-top: 0.75rem;
+    }
+    .btn-reset:hover { border-color: var(--navy); color: var(--navy); }
+
+    /* ── RESULTADO ── */
+    #stepResult { padding: 2rem 1.75rem; display: none; animation: fadeIn 0.3s ease; }
+    #stepResult.active { display: block; }
+
+    .result-header { text-align: center; padding: 1.5rem 1rem; }
+    .pct-display {
+      font-family: var(--font-h); font-weight: 700; color: var(--green);
+      font-size: 5rem; line-height: 1; letter-spacing: -0.03em;
+    }
+    .pct-display sup { font-size: 2rem; vertical-align: top; margin-top: 0.75rem; display: inline-block; }
+    .pct-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.35rem; font-weight: 500; }
+    .pct-motivo {
+      display: inline-block; margin-top: 0.75rem; padding: 0.4rem 1rem;
+      background: #D1FAE5; color: var(--green); border-radius: 100px;
+      font-size: 0.8rem; font-weight: 700;
+    }
+
+    /* Tabla de comparativa */
+    .comparativa {
+      background: var(--bg); border-radius: 10px; padding: 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .comparativa h3 {
+      font-family: var(--font-h); font-size: 0.85rem; font-weight: 700;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+    .comp-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.65rem 0; border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .comp-row:last-child { border-bottom: none; }
+    .comp-row .comp-name { color: var(--text); font-weight: 500; }
+    .comp-row .comp-pct {
+      font-family: var(--font-h); font-weight: 700; font-size: 1rem;
+    }
+    .comp-row .comp-check { font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 100px; margin-left: 0.5rem; }
+    .check-winner { background: #D1FAE5; color: var(--green); }
+    .check-yes { background: #DBEAFE; color: #1D4ED8; }
+    .check-no { background: #F1F5F9; color: var(--muted); }
+
+    /* Bloque de cálculo de ahorro */
+    .ahorro-block {
+      background: linear-gradient(135deg, #0F3D24, var(--green));
+      border-radius: 12px; padding: 1.5rem;
+      display: none;
+    }
+    .ahorro-block.visible { display: block; }
+    .ahorro-block .ah-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 0.2rem; }
+    .ahorro-block .ah-value { font-family: var(--font-h); font-size: 2.4rem; font-weight: 700; color: #fff; line-height: 1.1; }
+    .ahorro-block .ah-sub { font-size: 0.82rem; color: rgba(255,255,255,0.7); margin-bottom: 1rem; }
+    .ahorro-block .ah-detail {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+      border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1rem;
+    }
+    .ahorro-block .ah-item-label { font-size: 0.72rem; color: rgba(255,255,255,0.55); }
+    .ahorro-block .ah-item-value { font-family: var(--font-h); font-weight: 700; color: #fff; font-size: 1rem; }
+
+    /* Normativa */
+    .normativa-box {
+      background: #EFF6FF; border: 1px solid #BFDBFE;
+      border-radius: 10px; padding: 1.1rem 1.25rem; margin-top: 1rem;
+    }
+    .normativa-box p { font-size: 0.83rem; color: #1D4ED8; line-height: 1.6; }
+    .normativa-box strong { color: #1E3A8A; }
+
+    /* CTA zona tensionada */
+    .cta-zona {
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 1rem 1.25rem;
+      font-size: 0.85rem; color: var(--muted); margin-top: 1rem;
+    }
+    .cta-zona a { color: var(--navy); font-weight: 600; text-underline-offset: 2px; }
+
+    /* INFO SEO */
+    .info-section { margin-top: 2.5rem; }
+    .info-section h2 {
+      font-family: var(--font-h); font-size: 1.3rem; font-weight: 700;
+      margin-bottom: 1.25rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--border);
+    }
+    .faq-item { margin-bottom: 1.25rem; }
+    .faq-item h3 { font-family: var(--font-h); font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 0.35rem; }
+    .faq-item p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+    .faq-item strong { color: var(--text); }
+
+    .tramos-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.87rem; }
+    .tramos-table th { background: var(--navy); color: #fff; padding: 0.6rem 0.75rem; font-family: var(--font-h); font-weight: 600; text-align: left; }
+    .tramos-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .tramos-table tr:last-child td { border-bottom: none; }
+    .tramos-table tr:nth-child(even) td { background: var(--bg); }
+    .pct-badge { font-family: var(--font-h); font-weight: 700; font-size: 1rem; }
+
+    /* FOOTER */
+    footer { background: var(--navy); color: rgba(255,255,255,0.55); font-size: 0.8rem; text-align: center; padding: 1.5rem; margin-top: 3rem; }
+    footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    footer .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.5rem; }
+
+    @media (max-width: 500px) {
+      .step { padding: 1.5rem 1.25rem; }
+      #stepResult { padding: 1.5rem 1.25rem; }
+      .pct-display { font-size: 4rem; }
+      .ahorro-block .ah-detail { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">propietarios<span>tools</span>.es</a>
+  <ul>
+    <li><a href="/zona-tensionada/">Zona Tensionada</a></li>
+    <li><a href="/reduccion-irpf-alquiler/" class="active">IRPF Alquiler</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tool-badge">Ley 12/2023 · Renta 2026 · Gratuito</div>
+  <h1>¿Qué reducción IRPF te corresponde por alquilar tu vivienda?</h1>
+  <p>La Ley de Vivienda cambió el 60% único por cuatro tramos distintos. Descubre el tuyo en 2 minutos con este árbol de decisión.</p>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="wizard-card">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+    <!-- PASO 1: Fecha del contrato -->
+    <div class="step active" id="step1">
+      <div class="step-meta"><div class="step-num">1</div> Pregunta 1 de 4</div>
+      <h2>¿Cuándo se firmó el contrato de arrendamiento?</h2>
+      <p class="sub">La fecha de firma determina el régimen aplicable. La Ley 12/2023 entró en vigor el 26 de mayo de 2023.</p>
+
+      <div class="options">
+        <div class="option" data-val="pre2023" onclick="selectOption(this,'step1')">
+          <div class="option-radio"></div>
+          <div class="option-text">
+            <strong>Antes del 26 de mayo de 2023</strong>
+            <span>Régimen transitorio — reducción del 60%</span>
+          </div>
+        </div>
+        <div class="option" data-val="post2023" onclick="selectOption(this,'step1')">
+          <div class="option-radio"></div>
+          <div class="option-text">
+            <strong>Desde el 26 de mayo de 2023 hasta hoy</strong>
+            <span>Nuevo régimen — entre 50% y 90% según condiciones</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-next" id="next1" disabled onclick="goNext(1)">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASO 2: Zona tensionada -->
+    <div class="step" id="step2">
+      <div class="step-meta"><div class="step-num">2</div> Pregunta 2 de 4</div>
+      <h2>¿La vivienda está en un municipio declarado zona de mercado residencial tensionado?</h2>
+      <p class="sub">A junio 2026, son 307 municipios: principalmente Cataluña y Bilbao. <a href="/zona-tensionada/" target="_blank" style="color:var(--navy);font-weight:600;">Verifica tu municipio →</a></p>
+
+      <div class="options">
+        <div class="option" data-val="si" onclick="selectOption(this,'step2')">
+          <div class="option-radio"></div>
+          <div class="option-text">
+            <strong>Sí, es zona tensionada</strong>
+            <span>Puedo optar a reducciones del 70% o 90%</span>
+          </div>
+        </div>
+        <div class="option" data-val="no" onclick="selectOption(this,'step2')">
+          <div class="option-radio"></div>
+          <div class="option-text">
+            <strong>No, no es zona tensionada</strong>
+            <span>La reducción máxima posible es del 60%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-back" onclick="goBack(2)">← Atrás</button>
+        <button type="button" class="btn-next" id="next2" disabled onclick="goNext(2)">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASO 3A: Rebaja de renta (solo si zona tensionada) -->
+    <div class="step" id="step3a">
+      <div class="step-meta"><div class="step-num">3</div> Pregunta 3 de 4</div>
+      <h2>¿La renta firmada es al menos un 5% inferior a la del contrato anterior en esa misma vivienda?</h2>
+      <p class="sub">Solo aplica si existía un contrato previo en los últimos 5 años. La comparación se hace con la renta que estaba vigente en el contrato anterior (actualizada en su caso).</p>
+
+      <div class="options">
+        <div class="option" data-val="si" onclick="selectOption(this,'step3a')">
+          <div class="option-radio"></div>
+          <div class="option-text">
+            <strong>Sí, he bajado la renta un 5% o más</strong>
+            <span>Reducción del 90% — el máximo posible</span>
+          </div>
+        </div>
+        <div class="option" data-val="no" onclick="selectOption(this,'step3a')">
+          <div class="option-radio"></div>
+          <div class="option-text">
+            <strong>No / no hay contrato anterior</strong>
+            <span>Continúo para comprobar otras condiciones</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-back" onclick="goBack('3a')">← Atrás</button>
+        <button type="button" class="btn-next" id="next3a" disabled onclick="goNext('3a')">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASO 3B: Inquilino joven o rehabilitación (zona tensionada, sin rebaja) -->
+    <div class="step" id="step3b">
+      <div class="step-meta"><div class="step-num">3</div> Pregunta 3 de 4</div>
+      <h2>¿El inquilino tiene entre 18 y 35 años, o se encuentra en situación de vulnerabilidad?</h2>
+      <p class="sub">Vulnerabilidad: renta inferior a 3 veces el IPREM (22.558,77 €/año en 2026) y que el alquiler supere el 30% de sus ingresos.</p>
+
+      <div class="options">
+        <div class="option" data-val="si" onclick="selectOption(this,'step3b')">
+          <div class="option-radio"></div>
+          <div class="option-text">
+            <strong>Sí</strong>
+            <span>Reducción del 70%</span>
+          </div>
+        </div>
+        <div class="option" data-val="no" onclick="selectOption(this,'step3b')">
+          <div class="option-radio"></div>
+          <div class="option-text">
+            <strong>No</strong>
+            <span>Comprobamos si aplica la reducción por rehabilitación</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-back" onclick="goBack('3b')">← Atrás</button>
+        <button type="button" class="btn-next" id="next3b" disabled onclick="goNext('3b')">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASO 4: Rehabilitación (aplica siempre, tensionada o no) -->
+    <div class="step" id="step4">
+      <div class="step-meta"><div class="step-num">4</div> Pregunta 4 de 4</div>
+      <h2>¿Has realizado obras de rehabilitación o mejora de la vivienda en los 2 años anteriores a la firma del contrato?</h2>
+      <p class="sub">Incluye obras de mejora energética (aislamiento, caldera, paneles), accesibilidad o mejora general. Deben estar finalizadas antes de la firma del contrato.</p>
+
+      <div class="options">
+        <div class="option" data-val="si" onclick="selectOption(this,'step4')">
+          <div class="option-radio"></div>
+          <div class="option-text">
+            <strong>Sí, he realizado obras de rehabilitación</strong>
+            <span>Reducción del 60%</span>
+          </div>
+        </div>
+        <div class="option" data-val="no" onclick="selectOption(this,'step4')">
+          <div class="option-radio"></div>
+          <div class="option-text">
+            <strong>No</strong>
+            <span>Reducción general del 50%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-back" onclick="goBack(4)">← Atrás</button>
+        <button type="button" class="btn-next" id="next4" disabled onclick="goNext(4)">Ver mi reducción →</button>
+      </div>
+    </div>
+
+    <!-- PASO RESULTADO -->
+    <div id="stepResult">
+      <div class="result-header">
+        <div class="pct-display"><span id="pctGrande">—</span><sup>%</sup></div>
+        <div class="pct-label">Tu reducción sobre el rendimiento neto positivo del alquiler</div>
+        <div class="pct-motivo" id="pctMotivo">—</div>
+      </div>
+
+      <div class="comparativa">
+        <h3>Comparativa de tramos aplicables</h3>
+        <div id="compRows"><!-- JS --></div>
+      </div>
+
+      <!-- Cálculo de ahorro -->
+      <div id="ahorroSection">
+        <div style="margin-bottom:1rem;">
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.75rem;">
+            Introduce tus datos para calcular el ahorro fiscal estimado:
+          </p>
+          <div class="calc-group">
+            <label for="ingresosBrutos">Ingresos brutos anuales del alquiler (€) <span class="hint">— alquiler × 12 meses</span></label>
+            <div class="input-euro"><input type="number" id="ingresosBrutos" placeholder="Ej: 12000" min="0" step="100"></div>
+          </div>
+          <div class="calc-group">
+            <label for="gastosDed">Gastos anuales deducibles (€) <span class="hint">— IBI, comunidad, seguro, reparaciones…</span></label>
+            <div class="input-euro"><input type="number" id="gastosDed" placeholder="Ej: 1200" min="0" step="100"></div>
+          </div>
+          <div class="calc-group">
+            <label for="tipoMarginal">Tu tipo marginal de IRPF estimado (%)</label>
+            <select id="tipoMarginal" style="width:100%;padding:0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:var(--font-b);font-size:0.95rem;">
+              <option value="19">19% — Hasta 12.450 €</option>
+              <option value="24">24% — De 12.450 a 20.200 €</option>
+              <option value="30" selected>30% — De 20.200 a 35.200 €</option>
+              <option value="37">37% — De 35.200 a 60.000 €</option>
+              <option value="45">45% — Más de 60.000 €</option>
+            </select>
+          </div>
+          <button type="button" class="btn-next" onclick="calcularAhorro()" style="max-width:280px;">Calcular ahorro fiscal</button>
+        </div>
+
+        <div class="ahorro-block" id="ahorroBlock">
+          <div class="ah-label">Ahorro fiscal estimado</div>
+          <div class="ah-value" id="ahorroValue">—</div>
+          <div class="ah-sub" id="ahorroSub">—</div>
+          <div class="ah-detail">
+            <div><div class="ah-item-label">Rendimiento neto</div><div class="ah-item-value" id="rendNeto">—</div></div>
+            <div><div class="ah-item-label">Base tributable (con reducción)</div><div class="ah-item-value" id="baseTributable">—</div></div>
+            <div><div class="ah-item-label">Sin reducción habrías tributado</div><div class="ah-item-value" id="sinReduccion">—</div></div>
+            <div><div class="ah-item-label">Con reducción tributas</div><div class="ah-item-value" id="conReduccion">—</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="normativa-box" id="normativaBox">
+        <p id="normativaText">—</p>
+      </div>
+
+      <div class="cta-zona" id="ctaZona" style="display:none;">
+        ¿Aún no sabes si tu municipio es zona tensionada? <a href="/zona-tensionada/">Compruébalo aquí →</a>
+      </div>
+
+      <button type="button" class="btn-reset" onclick="resetWizard()">← Volver a empezar</button>
+    </div>
+  </div><!-- end wizard-card -->
+
+  <!-- INFO SEO -->
+  <div class="info-section">
+    <h2>Los cuatro tramos de reducción IRPF por alquiler desde 2024</h2>
+
+    <table class="tramos-table">
+      <thead>
+        <tr>
+          <th>Reducción</th>
+          <th>Condición</th>
+          <th>Contrato</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="pct-badge" style="color:var(--green)">90%</span></td>
+          <td>Zona tensionada + rebaja de renta ≥ 5% vs. contrato anterior</td>
+          <td>Post 26/05/2023</td>
+        </tr>
+        <tr>
+          <td><span class="pct-badge" style="color:#1D4ED8">70%</span></td>
+          <td>Zona tensionada + inquilino 18-35 años o en situación de vulnerabilidad</td>
+          <td>Post 26/05/2023</td>
+        </tr>
+        <tr>
+          <td><span class="pct-badge" style="color:#92400E">60%</span></td>
+          <td>Obras de rehabilitación finalizadas en los 2 años previos al contrato</td>
+          <td>Post 26/05/2023</td>
+        </tr>
+        <tr>
+          <td><span class="pct-badge" style="color:var(--muted)">50%</span></td>
+          <td>Caso general (ninguna condición anterior cumplida)</td>
+          <td>Post 26/05/2023</td>
+        </tr>
+        <tr>
+          <td><span class="pct-badge" style="color:var(--navy)">60%</span> <small style="color:var(--muted)">transitorio</small></td>
+          <td>Contratos firmados antes del 26 de mayo de 2023</td>
+          <td>Pre 26/05/2023</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="faq-item" style="margin-top:1.5rem;">
+      <h3>¿Si cumplo varias condiciones a la vez, se suman las reducciones?</h3>
+      <p>No se suman. Se aplica la <strong>mayor de las reducciones que correspondan</strong>. Por ejemplo, si tu vivienda está en zona tensionada y has rebajado la renta un 5%, te corresponde el 90%, aunque también hayas hecho obras de rehabilitación (60%).</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>¿La reducción se aplica sobre los ingresos brutos o sobre el rendimiento neto?</h3>
+      <p>Sobre el <strong>rendimiento neto positivo</strong>: ingresos del alquiler menos todos los gastos deducibles (IBI, comunidad de propietarios, seguro, intereses hipoteca si la hay, reparaciones y conservación, amortización del inmueble al 3% del valor de construcción). La reducción es el último paso antes de declarar en el IRPF.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>¿Qué documentación necesito para justificar la reducción del 70% por inquilino joven?</h3>
+      <p>Debes poder acreditar la edad del inquilino (DNI/NIE) y, en caso de vulnerabilidad, sus ingresos. La <strong>Agencia Tributaria puede requerir esta documentación</strong> en caso de comprobación. Guarda también el contrato de arrendamiento con la fecha de firma y la identificación de las partes.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>¿El alquiler de temporada o el alquiler turístico aplican estas reducciones?</h3>
+      <p><strong>No.</strong> Estas reducciones son exclusivamente para arrendamientos de vivienda habitual (LAU, art. 2). El alquiler de temporada y el alquiler turístico tributan íntegramente como rendimiento de capital inmobiliario, sin reducción.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>¿Y si mi inquilino incumple el contrato? ¿Pierdo la reducción?</h3>
+      <p>La reducción solo se aplica sobre rendimientos netos <strong>positivos</strong> declarados en la autoliquidación antes de que Hacienda inicie una comprobación. Si hay impagos y declaras rendimientos negativos o cero, no hay reducción que aplicar. La reducción no se pierde retroactivamente por incumplimiento del inquilino, pero debes poder justificar que la vivienda estaba destinada a vivienda habitual.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div>propietariostools.es — Herramientas gratuitas para propietarios. Sin registro. Sin publicidad invasiva.</div>
+  <div class="footer-links">
+    <a href="/">Inicio</a>
+    <a href="/zona-tensionada/">Zona Tensionada</a>
+    <a href="/reduccion-irpf-alquiler/">IRPF Alquiler</a>
+  </div>
+  <div style="margin-top:0.75rem;">Base normativa: Art. 23.2 LIRPF · Ley 12/2023 · DT 38ª LIRPF. Esta herramienta es orientativa y no constituye asesoramiento fiscal.</div>
+</footer>
+
+<script>
+// ─────────────────────────────────────────
+// ESTADO DEL WIZARD
+// ─────────────────────────────────────────
+const state = {
+  fechaContrato: null,   // 'pre2023' | 'post2023'
+  zonaTensionada: null,  // 'si' | 'no'
+  rebajaRenta: null,     // 'si' | 'no'
+  inquilinoJoven: null,  // 'si' | 'no'
+  rehabilitacion: null,  // 'si' | 'no'
+};
+
+const STEPS_FLOW = {
+  pre2023: ['step1', 'result'],
+  post2023_no: ['step1', 'step2', 'step4', 'result'],
+  post2023_si_rebaja: ['step1', 'step2', 'step3a', 'result'],
+  post2023_si_norebaja: ['step1', 'step2', 'step3a', 'step3b', 'step4', 'result'],
+};
+
+function selectOption(el, stepId) {
+  const parent = el.parentElement;
+  parent.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  const val = el.dataset.val;
+
+  if (stepId === 'step1') { state.fechaContrato = val; document.getElementById('next1').disabled = false; }
+  if (stepId === 'step2') { state.zonaTensionada = val; document.getElementById('next2').disabled = false; }
+  if (stepId === 'step3a') { state.rebajaRenta = val; document.getElementById('next3a').disabled = false; }
+  if (stepId === 'step3b') { state.inquilinoJoven = val; document.getElementById('next3b').disabled = false; }
+  if (stepId === 'step4') { state.rehabilitacion = val; document.getElementById('next4').disabled = false; }
+}
+
+function goNext(stepNum) {
+  if (stepNum === 1) {
+    if (state.fechaContrato === 'pre2023') { showResult(); return; }
+    showStep('step2');
+  } else if (stepNum === 2) {
+    if (state.zonaTensionada === 'no') { showStep('step4'); return; }
+    showStep('step3a');
+  } else if (stepNum === '3a') {
+    if (state.rebajaRenta === 'si') { showResult(); return; }
+    showStep('step3b');
+  } else if (stepNum === '3b') {
+    if (state.inquilinoJoven === 'si') { showResult(); return; }
+    showStep('step4');
+  } else if (stepNum === 4) {
+    showResult();
+  }
+}
+
+function goBack(stepNum) {
+  if (stepNum === 2) showStep('step1');
+  if (stepNum === '3a') showStep('step2');
+  if (stepNum === '3b') showStep('step3a');
+  if (stepNum === 4) {
+    if (state.zonaTensionada === 'no') showStep('step2');
+    else if (state.rebajaRenta === 'si') showStep('step3a');
+    else showStep('step3b');
+  }
+}
+
+function showStep(id) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('stepResult').classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  updateProgress(id);
+}
+
+function updateProgress(id) {
+  const map = { step1: 20, step2: 40, step3a: 55, step3b: 70, step4: 85 };
+  document.getElementById('progressFill').style.width = (map[id] || 100) + '%';
+}
+
+// ─────────────────────────────────────────
+// CÁLCULO DE REDUCCIÓN
+// ─────────────────────────────────────────
+function calcularReduccion() {
+  if (state.fechaContrato === 'pre2023') {
+    return {
+      pct: 60, motivo: 'Régimen transitorio (contrato pre-26/05/2023)',
+      normativa: 'Los contratos firmados antes del 26 de mayo de 2023 mantienen la reducción del <strong>60%</strong> según la Disposición Transitoria 38ª de la LIRPF. Esta reducción se aplica sobre el rendimiento neto positivo del capital inmobiliario declarado correctamente en la autoliquidación.',
+      showCtaZona: false
+    };
+  }
+
+  const tramos = [];
+
+  // Siempre aplica 50% (caso general post-2023)
+  tramos.push({ pct: 50, nombre: 'General (caso base)', aplica: true, esBase: true });
+
+  // 60% por rehabilitación (independiente de zona tensionada)
+  tramos.push({
+    pct: 60, nombre: 'Rehabilitación energética o de mejora',
+    aplica: state.rehabilitacion === 'si', esBase: false
+  });
+
+  if (state.zonaTensionada === 'si') {
+    // 70% zona tensionada + joven/vulnerable
+    tramos.push({
+      pct: 70, nombre: 'Zona tensionada + inquilino joven o vulnerable',
+      aplica: state.inquilinoJoven === 'si', esBase: false
+    });
+    // 90% zona tensionada + rebaja ≥5%
+    tramos.push({
+      pct: 90, nombre: 'Zona tensionada + rebaja de renta ≥ 5%',
+      aplica: state.rebajaRenta === 'si', esBase: false
+    });
+  }
+
+  const aplicables = tramos.filter(t => t.aplica);
+  const ganador = aplicables.reduce((mx, t) => t.pct > mx.pct ? t : mx, aplicables[0]);
+
+  // Normativa contextual
+  const normas = {
+    50: 'Reducción general del <strong>50%</strong> (Art. 23.2.a LIRPF, nuevo régimen Ley 12/2023). Si en el futuro el municipio es declarado zona tensionada o cambias las condiciones del contrato, podrías acceder a tramos superiores.',
+    60: 'Reducción del <strong>60%</strong> por obras de rehabilitación o mejora energética (Art. 23.2.d LIRPF). Conserva la documentación de las obras (facturas, certificado de eficiencia energética) pues Hacienda puede requerirla.',
+    70: 'Reducción del <strong>70%</strong> por zona tensionada e inquilino menor de 35 años o en situación de vulnerabilidad (Art. 23.2.c LIRPF). Guarda copia del DNI del inquilino y, si aplica la vulnerabilidad, documentación de ingresos.',
+    90: 'Reducción máxima del <strong>90%</strong> por zona tensionada y rebaja de renta ≥ 5% respecto al contrato anterior (Art. 23.2.b LIRPF). Es obligatorio que exista un contrato previo en los últimos 5 años y que la nueva renta sea al menos un 5% inferior a la que tenía vigente ese contrato.',
+  };
+
+  return {
+    pct: ganador.pct,
+    motivo: ganador.nombre,
+    tramos,
+    normativa: normas[ganador.pct],
+    showCtaZona: state.zonaTensionada === null,
+  };
+}
+
+function showResult() {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('progressFill').style.width = '100%';
+
+  const r = calcularReduccion();
+
+  document.getElementById('pctGrande').textContent = r.pct;
+  document.getElementById('pctMotivo').textContent = r.motivo;
+  document.getElementById('normativaText').innerHTML = r.normativa;
+
+  if (r.showCtaZona) document.getElementById('ctaZona').style.display = 'block';
+  else document.getElementById('ctaZona').style.display = 'none';
+
+  // Comparativa de tramos
+  if (r.tramos) {
+    const sorted = [...r.tramos].sort((a, b) => b.pct - a.pct);
+    document.getElementById('compRows').innerHTML = sorted.map(t => {
+      const isWinner = t.aplica && t.pct === r.pct;
+      const badge = isWinner
+        ? `<span class="comp-check check-winner">✓ Tu caso</span>`
+        : t.aplica
+          ? `<span class="comp-check check-yes">✓ Aplica</span>`
+          : `<span class="comp-check check-no">✗ No aplica</span>`;
+      const color = isWinner ? 'var(--green)' : t.aplica ? '#1D4ED8' : 'var(--muted)';
+      return `<div class="comp-row">
+        <span class="comp-name">${t.nombre}</span>
+        <span class="comp-pct" style="color:${color}">${t.pct}%${badge}</span>
+      </div>`;
+    }).join('');
+  } else {
+    document.getElementById('compRows').innerHTML =
+      `<div class="comp-row"><span class="comp-name">Régimen transitorio</span><span class="comp-pct" style="color:var(--navy)">60% <span class="comp-check check-winner">✓ Tu caso</span></span></div>`;
+  }
+
+  // Ocultar bloque de ahorro hasta que el usuario introduzca datos
+  document.getElementById('ahorroBlock').classList.remove('visible');
+
+  document.getElementById('stepResult').classList.add('active');
+  document.getElementById('stepResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ─────────────────────────────────────────
+// CÁLCULO DE AHORRO FISCAL
+// ─────────────────────────────────────────
+function calcularAhorro() {
+  const ingresos = parseFloat(document.getElementById('ingresosBrutos').value) || 0;
+  const gastos   = parseFloat(document.getElementById('gastosDed').value) || 0;
+  const tipo     = parseFloat(document.getElementById('tipoMarginal').value) || 30;
+
+  if (ingresos <= 0) { alert('Introduce los ingresos brutos anuales del alquiler.'); return; }
+
+  const r = calcularReduccion();
+  const rendNeto     = Math.max(ingresos - gastos, 0);
+  const baseConRed   = rendNeto * (1 - r.pct / 100);
+  const sinReduccion = rendNeto * tipo / 100;
+  const conReduccion = baseConRed * tipo / 100;
+  const ahorro       = sinReduccion - conReduccion;
+
+  const fmt = n => n.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' €';
+
+  document.getElementById('rendNeto').textContent       = fmt(rendNeto);
+  document.getElementById('baseTributable').textContent = fmt(baseConRed);
+  document.getElementById('sinReduccion').textContent   = fmt(sinReduccion);
+  document.getElementById('conReduccion').textContent   = fmt(conReduccion);
+  document.getElementById('ahorroValue').textContent    = fmt(ahorro) + '/año';
+  document.getElementById('ahorroSub').textContent      = `Con la reducción del ${r.pct}% y tipo marginal ${tipo}%`;
+
+  document.getElementById('ahorroBlock').classList.add('visible');
+  document.getElementById('ahorroBlock').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetWizard() {
+  Object.keys(state).forEach(k => state[k] = null);
+  document.getElementById('stepResult').classList.remove('active');
+  document.getElementById('progressFill').style.width = '0%';
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  ['next1','next2','next3a','next3b','next4'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.disabled = true;
+  });
+  document.getElementById('ahorroBlock').classList.remove('visible');
+  document.getElementById('ingresosBrutos').value = '';
+  document.getElementById('gastosDed').value = '';
+  showStep('step1');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

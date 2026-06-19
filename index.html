@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PropietariosTools — Herramientas gratuitas para propietarios en España</title>
+  <meta name="description" content="Herramientas gratuitas para propietarios: verifica si tu municipio es zona tensionada, calcula la subida máxima de alquiler con el IRAV y descubre tu reducción IRPF exacta (50%, 60%, 70% o 90%).">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://propietariostools.es/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <meta property="og:title" content="PropietariosTools — Herramientas gratuitas para propietarios">
+  <meta property="og:description" content="Zona tensionada, IRAV y reducción IRPF: todo lo que necesitas como propietario de alquiler en España.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://propietariostools.es/">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1E3A5F; --navy-d: #152B47; --amber: #E8A020;
+      --green:  #0F7A44; --bg: #F5F4F0; --card: #FFFFFF;
+      --text:   #0F172A; --muted: #64748B; --border: #E2E0D8;
+      --radius: 12px;
+      --font-h: 'Space Grotesk', sans-serif;
+      --font-b: 'Inter', sans-serif;
+    }
+    body { font-family: var(--font-b); background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      background: var(--navy); padding: 0 1.5rem;
+      display: flex; align-items: center; justify-content: space-between; height: 56px;
+    }
+    .logo { font-family: var(--font-h); font-weight: 700; font-size: 1rem; color: #fff; text-decoration: none; letter-spacing: -0.02em; }
+    .logo span { color: var(--amber); }
+    nav ul { list-style: none; display: flex; gap: 1.5rem; }
+    nav a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.85rem; font-weight: 500; }
+    nav a:hover { color: #fff; }
+
+    /* HERO */
+    .hero {
+      background: var(--navy);
+      padding: 4rem 1.5rem 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -60px; right: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(232,160,32,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--amber); margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: var(--font-h); font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 700; color: #fff; line-height: 1.15;
+      max-width: 700px; margin: 0 auto 1.25rem; letter-spacing: -0.03em;
+    }
+    .hero h1 em { color: var(--amber); font-style: normal; }
+    .hero p {
+      color: rgba(255,255,255,0.65); font-size: 1.05rem;
+      max-width: 520px; margin: 0 auto 2rem;
+    }
+    .hero-stats {
+      display: inline-flex; gap: 2rem; flex-wrap: wrap; justify-content: center;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px; padding: 1rem 2rem;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-family: var(--font-h); font-weight: 700; font-size: 1.4rem; color: #fff; display: block; }
+    .stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+
+    /* TOOLS */
+    .tools-section { max-width: 900px; margin: 0 auto; padding: 3rem 1.25rem; }
+    .section-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    @media (max-width: 640px) { .tools-grid { grid-template-columns: 1fr; } }
+
+    .tool-card {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 1.75rem;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column;
+      transition: border-color .15s, box-shadow .15s, transform .15s;
+      position: relative; overflow: hidden;
+    }
+    .tool-card::after {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--navy), var(--amber));
+      opacity: 0; transition: opacity .2s;
+    }
+    .tool-card:hover { border-color: var(--navy); box-shadow: 0 4px 20px rgba(30,58,95,0.12); transform: translateY(-2px); }
+    .tool-card:hover::after { opacity: 1; }
+
+    .tool-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--navy); display: flex; align-items: center;
+      justify-content: center; font-size: 1.4rem; margin-bottom: 1.25rem;
+    }
+    .tool-card h2 { font-family: var(--font-h); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem; line-height: 1.3; }
+    .tool-card p { font-size: 0.87rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.25rem; flex: 1; }
+
+    .tool-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
+    .tag {
+      font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.55rem;
+      border-radius: 100px; background: var(--bg); color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .tool-cta {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: var(--font-h); font-size: 0.9rem; font-weight: 600;
+      color: var(--navy); margin-top: auto;
+    }
+    .tool-cta::after { content: '→'; transition: transform .15s; }
+    .tool-card:hover .tool-cta::after { transform: translateX(3px); }
+
+    /* WHY */
+    .why-section { background: var(--navy); padding: 3rem 1.5rem; }
+    .why-inner { max-width: 860px; margin: 0 auto; }
+    .why-inner h2 {
+      font-family: var(--font-h); font-size: 1.5rem; font-weight: 700;
+      color: #fff; text-align: center; margin-bottom: 2rem; letter-spacing: -0.02em;
+    }
+    .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    @media (max-width: 600px) { .why-grid { grid-template-columns: 1fr; } }
+
+    .why-item { background: rgba(255,255,255,0.06); border-radius: 10px; padding: 1.25rem; }
+    .why-item .wi-icon { font-size: 1.5rem; margin-bottom: 0.6rem; }
+    .why-item h3 { font-family: var(--font-h); font-size: 0.95rem; font-weight: 600; color: #fff; margin-bottom: 0.35rem; }
+    .why-item p { font-size: 0.83rem; color: rgba(255,255,255,0.55); line-height: 1.55; }
+
+    /* FOOTER */
+    footer { background: var(--navy-d); color: rgba(255,255,255,0.45); font-size: 0.8rem; text-align: center; padding: 1.5rem; }
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    footer .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.5rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">propietarios<span>tools</span>.es</a>
+  <ul>
+    <li><a href="/zona-tensionada/">Zona Tensionada</a></li>
+    <li><a href="/reduccion-irpf-alquiler/">IRPF Alquiler</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <p class="hero-eyebrow">Herramientas gratuitas · Actualizado junio 2026</p>
+  <h1>La <em>Ley de Vivienda</em> es compleja.<br>Tus herramientas, no.</h1>
+  <p>Calcula la subida máxima de tu alquiler, verifica zonas tensionadas y descubre qué reducción IRPF te corresponde exactamente.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">307</span><span class="stat-label">municipios tensionados</span></div>
+    <div class="stat"><span class="stat-num">2,47%</span><span class="stat-label">IRAV mayo 2026 (INE)</span></div>
+    <div class="stat"><span class="stat-num">50-90%</span><span class="stat-label">reducción IRPF</span></div>
+  </div>
+</div>
+
+<div class="tools-section">
+  <div class="section-label">Herramientas disponibles</div>
+  <div class="tools-grid">
+
+    <a href="/zona-tensionada/" class="tool-card">
+      <div class="tool-icon">📍</div>
+      <h2>Verificador Zona Tensionada + Calculadora IRAV</h2>
+      <p>Comprueba si tu municipio está en el registro oficial de zonas tensionadas y calcula exactamente cuánto puedes subir el alquiler con el índice IRAV del INE.</p>
+      <div class="tool-tags">
+        <span class="tag">IRAV mayo 2026: 2,47%</span>
+        <span class="tag">307 municipios</span>
+        <span class="tag">Ley 12/2023</span>
+      </div>
+      <span class="tool-cta">Verificar mi municipio</span>
+    </a>
+
+    <a href="/reduccion-irpf-alquiler/" class="tool-card">
+      <div class="tool-icon">📊</div>
+      <h2>Calculadora Reducción IRPF por Alquiler</h2>
+      <p>La Ley 12/2023 cambió el 60% único por cuatro tramos distintos. Responde 4 preguntas y descubre si te corresponde el 50%, 60%, 70% o el máximo del 90%.</p>
+      <div class="tool-tags">
+        <span class="tag">50 / 60 / 70 / 90%</span>
+        <span class="tag">Renta 2024-2026</span>
+        <span class="tag">Ahorro fiscal</span>
+      </div>
+      <span class="tool-cta">Calcular mi reducción</span>
+    </a>
+
+  </div>
+</div>
+
+<div class="why-section">
+  <div class="why-inner">
+    <h2>Por qué propietariostools.es</h2>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="wi-icon">⚡</div>
+        <h3>Sin registro, sin esperas</h3>
+        <p>Resultado inmediato. Sin email, sin cuenta, sin publicidad invasiva. Solo la herramienta.</p>
+      </div>
+      <div class="why-item">
+        <div class="wi-icon">📅</div>
+        <h3>Datos oficiales actualizados</h3>
+        <p>IRAV del INE, zonas tensionadas del MIVAU y normativa Ley 12/2023. Actualizamos cuando cambia la ley.</p>
+      </div>
+      <div class="why-item">
+        <div class="wi-icon">📱</div>
+        <h3>Funciona en el móvil</h3>
+        <p>Diseñado para usarse desde cualquier dispositivo, rápido y sin fricciones.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>propietariostools.es — Herramientas gratuitas para propietarios en España</div>
+  <div class="footer-links">
+    <a href="/zona-tensionada/">Zona Tensionada + IRAV</a>
+    <a href="/reduccion-irpf-alquiler/">Reducción IRPF</a>
+  </div>
+  <div style="margin-top:0.6rem;">Esta herramienta es orientativa y no constituye asesoramiento legal o fiscal. Consulta siempre con un profesional para decisiones importantes.</div>
+</footer>
+
+</body>
+</html>

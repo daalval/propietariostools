@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificador Zona Tensionada y Calculadora IRAV 2026 | PropietariosTools</title>
+  <meta name="description" content="Comprueba si tu municipio es zona tensionada y calcula la subida máxima legal de tu alquiler con el IRAV 2026. Gratis, sin registro, datos oficiales del INE y MIVAU.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://propietariostools.es/zona-tensionada/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="¿Está mi piso en zona tensionada? Verifica y calcula la subida máxima legal">
+  <meta property="og:description" content="Herramienta gratuita para propietarios. Verifica zona tensionada + calcula subida máxima IRAV 2026.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://propietariostools.es/zona-tensionada/">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1E3A5F;
+      --navy-d: #152B47;
+      --amber:  #E8A020;
+      --green:  #0F7A44;
+      --red:    #C0392B;
+      --bg:     #F5F4F0;
+      --card:   #FFFFFF;
+      --text:   #0F172A;
+      --muted:  #64748B;
+      --border: #E2E0D8;
+      --radius: 10px;
+      --font-h: 'Space Grotesk', sans-serif;
+      --font-b: 'Inter', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-b);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--navy);
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .logo {
+      font-family: var(--font-h);
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .logo span { color: var(--amber); }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color .15s;
+    }
+    nav a:hover, nav a.active { color: #fff; }
+    nav a.active { border-bottom: 2px solid var(--amber); padding-bottom: 2px; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      padding: 2.5rem 1.5rem 3rem;
+      text-align: center;
+    }
+    .tool-badge {
+      display: inline-block;
+      background: rgba(232,160,32,0.2);
+      color: var(--amber);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: var(--font-h);
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      max-width: 640px;
+      margin: 0 auto 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    .hero p {
+      color: rgba(255,255,255,0.65);
+      font-size: 1rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ── UPDATE BANNER ── */
+    .update-banner {
+      background: rgba(232,160,32,0.12);
+      border: 1px solid rgba(232,160,32,0.35);
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      font-size: 0.82rem;
+      color: #fff;
+      margin: 1.25rem auto 0;
+      max-width: 580px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .update-banner .dot {
+      width: 8px; height: 8px;
+      background: var(--amber);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .main { max-width: 900px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 660px) {
+      .tools-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .card-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .card-label::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 14px;
+      background: var(--amber);
+      border-radius: 2px;
+    }
+    .card h2 {
+      font-family: var(--font-h);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+      line-height: 1.3;
+    }
+
+    /* ── INPUTS ── */
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+    .hint { font-weight: 400; color: var(--muted); }
+
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: var(--font-b);
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--card);
+      transition: border-color .15s, box-shadow .15s;
+      -webkit-appearance: none;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(30,58,95,0.12);
+    }
+
+    .search-wrap { position: relative; margin-bottom: 1rem; }
+    .search-wrap input { padding-right: 2.5rem; }
+    .clear-btn {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1;
+      display: none;
+    }
+    .clear-btn.visible { display: block; }
+
+    .suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      background: var(--card);
+      border: 1.5px solid var(--navy);
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 100;
+      display: none;
+    }
+    .suggestions.open { display: block; }
+    .suggestion-item {
+      padding: 0.6rem 0.85rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background .1s;
+    }
+    .suggestion-item:hover, .suggestion-item.focused { background: var(--bg); }
+    .suggestion-item small { color: var(--muted); font-size: 0.78rem; }
+
+    /* ── RESULT BOXES ── */
+    .result-box {
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-top: 1rem;
+      display: none;
+    }
+    .result-box.visible { display: block; }
+
+    .result-tensionada {
+      background: #F0FAF5;
+      border: 1.5px solid #A7DFC3;
+    }
+    .result-no-tensionada {
+      background: #FFF9F0;
+      border: 1.5px solid #FACB8A;
+    }
+    .result-notfound {
+      background: #F8F8F8;
+      border: 1.5px solid var(--border);
+    }
+
+    .result-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+    .pill-green { background: #D1FAE5; color: var(--green); }
+    .pill-orange { background: #FEF3C7; color: #92400E; }
+    .pill-gray { background: #F1F5F9; color: var(--muted); }
+
+    .result-box h3 {
+      font-family: var(--font-h);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      line-height: 1.2;
+    }
+    .result-box p { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .result-box .detail { font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem; }
+    .result-box a { color: var(--navy); text-underline-offset: 2px; }
+
+    /* ── IRAV CALCULATOR ── */
+    .field-group { margin-bottom: 1rem; }
+
+    .btn {
+      display: inline-block;
+      width: 100%;
+      padding: 0.75rem 1.25rem;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-h);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+    button[type="button"].btn { width: 100%; }
+    .btn:hover { background: var(--navy-d); }
+
+    .irav-result {
+      background: linear-gradient(135deg, #0F3D24, #0F7A44);
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-top: 1rem;
+      display: none;
+    }
+    .irav-result.visible { display: block; }
+    .irav-result .label-sm {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 0.25rem;
+    }
+    .irav-result .big-number {
+      font-family: var(--font-h);
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+    .irav-result .big-number sup {
+      font-size: 1.2rem;
+      font-weight: 600;
+      vertical-align: top;
+      margin-top: 0.4rem;
+      display: inline-block;
+    }
+    .irav-result .sub-label {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 1rem;
+    }
+    .irav-result .breakdown {
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 0.75rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .irav-result .breakdown-item .item-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 0.1rem;
+    }
+    .irav-result .breakdown-item .item-value {
+      font-family: var(--font-h);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .irav-result .nota {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 0.75rem;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 0.6rem;
+    }
+
+    /* ── INFO SECTION ── */
+    .info-section { margin-top: 2.5rem; }
+    .info-section h2 {
+      font-family: var(--font-h);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .faq-item { margin-bottom: 1.25rem; }
+    .faq-item h3 {
+      font-family: var(--font-h);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.35rem;
+    }
+    .faq-item p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .faq-item strong { color: var(--text); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.55);
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 3rem;
+    }
+    footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    footer .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.5rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .irav-result .big-number { font-size: 2.2rem; }
+      .irav-result .breakdown { grid-template-columns: 1fr; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">propietarios<span>tools</span>.es</a>
+  <ul>
+    <li><a href="/zona-tensionada/" class="active">Zona Tensionada</a></li>
+    <li><a href="/reduccion-irpf-alquiler/">IRPF Alquiler</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tool-badge">Herramienta gratuita · Actualizado junio 2026</div>
+  <h1>¿Está mi piso en zona tensionada? Calcula la subida máxima legal</h1>
+  <p>Verifica el estado de tu municipio y calcula cuánto puedes subir el alquiler con el IRAV oficial del INE.</p>
+  <div class="update-banner">
+    <span class="dot"></span>
+    <span><strong>Novedad 29/04/2026:</strong> El RDL 8/2026 fue rechazado — desde esa fecha se aplica el IRAV completo sin tope extraordinario del 2%.</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="tools-grid">
+
+    <!-- CARD 1: VERIFICADOR -->
+    <div class="card">
+      <div class="card-label">Verificador</div>
+      <h2>¿Tu municipio es zona de mercado residencial tensionado?</h2>
+
+      <label for="municipioInput">Nombre del municipio <span class="hint">(escribe para buscar)</span></label>
+      <div class="search-wrap">
+        <input
+          type="text"
+          id="municipioInput"
+          placeholder="Ej: Barcelona, Girona, Bilbao…"
+          autocomplete="off"
+          aria-autocomplete="list"
+          aria-controls="suggestions-list"
+        >
+        <button type="button" class="clear-btn" id="clearBtn" aria-label="Limpiar búsqueda">✕</button>
+        <div class="suggestions" id="suggestionsList" role="listbox"></div>
+      </div>
+
+      <!-- Resultado: tensionada -->
+      <div class="result-box result-tensionada" id="resultTensionada">
+        <div class="result-pill pill-green">✓ Zona Tensionada</div>
+        <h3 id="resultMunicipioNombre">—</h3>
+        <p id="resultMunicipioInfo">—</p>
+        <div class="detail">
+          <strong>Reglas en zona tensionada:</strong><br>
+          La renta del nuevo contrato <strong>no puede superar la del contrato anterior</strong> (actualizada por el índice pactado). Si no hay contrato anterior, se aplica el índice de precios de referencia del MITMA/MIVAU.
+          <br><br>
+          <a href="https://www.mivau.gob.es/vivienda/alquiler/zonas-de-mercado-residencial-tensionado" target="_blank" rel="noopener">Verificar en el registro oficial MIVAU →</a>
+        </div>
+      </div>
+
+      <!-- Resultado: no tensionada -->
+      <div class="result-box result-no-tensionada" id="resultNoTensionada">
+        <div class="result-pill pill-orange">⚠ No declarada zona tensionada</div>
+        <h3 id="resultNTMunicipioNombre">—</h3>
+        <p>Tu municipio no figura en el registro oficial de zonas de mercado residencial tensionado a junio 2026.</p>
+        <div class="detail">
+          Puedes actualizar el alquiler con el <strong>IRAV</strong> (contratos post-26/05/2023) o el <strong>IPC</strong> (contratos anteriores), según la cláusula de revisión del contrato. Usa la calculadora de la derecha.
+          <br><br>
+          <a href="https://www.mivau.gob.es/vivienda/alquiler/zonas-de-mercado-residencial-tensionado" target="_blank" rel="noopener">Confirmar en el registro oficial MIVAU →</a>
+        </div>
+      </div>
+
+      <!-- Resultado: no encontrado -->
+      <div class="result-box result-notfound" id="resultNotFound">
+        <div class="result-pill pill-gray">Municipio no encontrado</div>
+        <h3>No encontramos ese municipio</h3>
+        <p>No figura en nuestra base de datos. Los municipios declarados zona tensionada son 307, ubicados principalmente en Cataluña y País Vasco. Verifica directamente en el registro oficial.</p>
+        <div class="detail">
+          <a href="https://www.mivau.gob.es/vivienda/alquiler/zonas-de-mercado-residencial-tensionado" target="_blank" rel="noopener">Consultar registro oficial MIVAU →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2: CALCULADORA IRAV -->
+    <div class="card">
+      <div class="card-label">Calculadora</div>
+      <h2>Subida máxima legal de tu alquiler con el IRAV 2026</h2>
+
+      <div class="field-group">
+        <label for="rentaActual">Renta mensual actual (€)</label>
+        <input type="number" id="rentaActual" placeholder="Ej: 950" min="1" max="99999" step="1">
+      </div>
+
+      <div class="field-group">
+        <label for="tipoContrato">Tipo de contrato</label>
+        <select id="tipoContrato">
+          <option value="post2023">Firmado desde el 26/05/2023 (aplica IRAV)</option>
+          <option value="pre2023">Firmado antes del 26/05/2023 (aplica IPC)</option>
+        </select>
+      </div>
+
+      <div class="field-group" id="mesIravGroup">
+        <label for="mesRenovacion">Mes de aniversario / renovación</label>
+        <select id="mesRenovacion">
+          <option value="2026-01">Enero 2026</option>
+          <option value="2026-02">Febrero 2026</option>
+          <option value="2026-03">Marzo 2026</option>
+          <option value="2026-04">Abril 2026</option>
+          <option value="2026-05">Mayo 2026</option>
+          <option value="2026-06" selected>Junio 2026</option>
+          <option value="2026-07">Julio 2026</option>
+          <option value="2026-08">Agosto 2026</option>
+          <option value="2026-09">Septiembre 2026</option>
+          <option value="2026-10">Octubre 2026</option>
+          <option value="2026-11">Noviembre 2026</option>
+          <option value="2026-12">Diciembre 2026</option>
+        </select>
+      </div>
+
+      <button type="button" class="btn" id="calcularBtn">Calcular subida máxima</button>
+
+      <!-- Resultado IRAV -->
+      <div class="irav-result" id="iravResult">
+        <div class="label-sm">IRAV aplicable</div>
+        <div class="big-number"><span id="iravPct">—</span><sup>%</sup></div>
+        <div class="sub-label" id="iravMesRef">Índice del INE</div>
+        <div class="breakdown">
+          <div class="breakdown-item">
+            <div class="item-label">Renta actual</div>
+            <div class="item-value" id="rentaActualDisplay">—</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="item-label">Subida máxima</div>
+            <div class="item-value" id="subidaDisplay">—</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="item-label">Nueva renta máxima</div>
+            <div class="item-value" id="nuevaRentaDisplay">—</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="item-label">Diferencia anual</div>
+            <div class="item-value" id="difAnualDisplay">—</div>
+          </div>
+        </div>
+        <div class="nota" id="iravNota">Dato publicado por el INE. El IRAV que aplica es el del mes anterior al aniversario del contrato. Comunica la subida por escrito al inquilino antes de aplicarla.</div>
+      </div>
+    </div>
+  </div><!-- end tools-grid -->
+
+  <!-- INFO SEO -->
+  <div class="info-section">
+    <h2>Preguntas frecuentes sobre zonas tensionadas e IRAV 2026</h2>
+
+    <div class="faq-item">
+      <h3>¿Qué es una zona de mercado residencial tensionado?</h3>
+      <p>Es un ámbito territorial declarado oficialmente por la comunidad autónoma correspondiente cuando el coste del alquiler o hipoteca supera el <strong>30% de la renta media de los hogares</strong>, o cuando los precios han subido más de 3 puntos sobre el IPC en los últimos 5 años. A junio de 2026, <strong>307 municipios</strong> están declarados, concentrados principalmente en Cataluña (271 municipios) y País Vasco (Bilbao).</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>¿Qué limita el IRAV y desde cuándo aplica?</h3>
+      <p>El IRAV (Índice de Referencia de Arrendamientos de Vivienda) es el tope máximo de actualización anual de la renta para <strong>contratos de vivienda habitual firmados desde el 26 de mayo de 2023</strong>. Lo publica el INE mensualmente. Para contratos anteriores a esa fecha, el índice de referencia sigue siendo el IPC. <strong>Importante:</strong> desde el 29 de abril de 2026, ya no existe el tope extraordinario del 2% —el RDL 8/2026 fue rechazado en el Congreso y se aplica el IRAV completo.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>¿Cuál es el IRAV en junio de 2026?</h3>
+      <p>El último IRAV publicado por el INE es el de <strong>mayo de 2026: 2,47%</strong>. Si tu contrato se renueva en junio de 2026, aplicas el IRAV de mayo. Si se renueva en otro mes, aplica el IRAV del mes anterior a la fecha de renovación.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>¿Estoy en zona tensionada pero no hay contrato anterior? ¿Cuánto puedo pedir?</h3>
+      <p>Si no existe un contrato previo de alquiler en esa vivienda en los últimos 5 años, la renta inicial no está limitada por la renta del contrato anterior. Sin embargo, <strong>grandes tenedores</strong> (más de 10 viviendas o 1.500 m² residenciales) sí deben aplicar el índice de precios de referencia del MIVAU, aunque aún no está operativo en todas las CCAA.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>¿Puedo subir más del IRAV si mi inquilino lleva muchos años sin subida?</h3>
+      <p>No. El IRAV es un <strong>tope máximo</strong>, no una subida automática garantizada. Si el contrato tiene cláusula de actualización, aplica el IRAV como límite. Si han pasado varios años sin actualizar y el contrato tiene cláusula de revisión acumulada, deberás pedir asesoramiento jurídico, ya que la acumulación de índices no está expresamente regulada de forma uniforme.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>¿Qué reducción IRPF me corresponde como propietario que alquila?</h3>
+      <p>Desde el 1 de enero de 2024, la reducción del IRPF sobre el rendimiento neto del alquiler depende de varias condiciones (zona tensionada, edad del inquilino, obras de rehabilitación, rebaja de renta). Puede ser del <strong>50%, 60%, 70% o 90%</strong>. Usa nuestra <a href="/reduccion-irpf-alquiler/">calculadora de reducción IRPF</a> para saber qué porcentaje te corresponde exactamente.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div>propietariostools.es — Herramientas gratuitas para propietarios. Sin registro. Sin publicidad invasiva.</div>
+  <div class="footer-links">
+    <a href="/">Inicio</a>
+    <a href="/zona-tensionada/">Zona Tensionada</a>
+    <a href="/reduccion-irpf-alquiler/">IRPF Alquiler</a>
+  </div>
+  <div style="margin-top:0.75rem;">Datos: INE (IRAV) · MIVAU (Zonas tensionadas) · Ley 12/2023. Esta herramienta es orientativa y no constituye asesoramiento legal o fiscal.</div>
+</footer>
+
+<script>
+// ─────────────────────────────────────────
+// DATOS: MUNICIPIOS ZONA TENSIONADA
+// Fuente: Resolución MIVAU (BOE), actualizado junio 2026
+// Cataluña: 271 municipios (marzo 2024)
+// País Vasco: Bilbao (declarada, índice pendiente de operatividad)
+// ─────────────────────────────────────────
+const MUNICIPIOS = [
+  // CATALUÑA — Provincia de Barcelona
+  { n:"Barcelona",                    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"L'Hospitalet de Llobregat",    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Badalona",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Terrassa",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sabadell",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Mataró",                       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Santa Coloma de Gramenet",     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Cornellà de Llobregat",        p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Boi de Llobregat",        p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Rubí",                         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Castelldefels",                p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Viladecans",                   p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Cerdanyola del Vallès",        p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Mollet del Vallès",            p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"El Prat de Llobregat",         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Gavà",                         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Esplugues de Llobregat",       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Granollers",                   p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Manresa",                      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Vilanova i la Geltrú",         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Martorell",                    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Cugat del Vallès",        p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Barberà del Vallès",           p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Ripollet",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Adrià de Besòs",          p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Premià de Mar",                p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"El Masnou",                    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Montgat",                      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Andreu de la Barca",      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Feliu de Llobregat",      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Joan Despí",              p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Molins de Rei",                p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"El Papiol",                    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Santa Coloma de Cervelló",     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Cervelló",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"La Palma de Cervelló",         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Corbera de Llobregat",         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Begues",                       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Pallejà",                      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Torrelles de Llobregat",       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Just Desvern",            p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Vicenç dels Horts",       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Collbató",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Montcada i Reixac",            p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Badia del Vallès",             p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Quirze del Vallès",       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Castellar del Vallès",         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sentmenat",                    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Polinyà",                      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Palau-solità i Plegamans",     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Santa Perpètua de Mogoda",     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"La Llagosta",                  p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Montmeló",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Montornès del Vallès",         p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Parets del Vallès",            p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Les Franqueses del Vallès",    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"La Garriga",                   p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Cardedeu",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Arenys de Mar",                p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Canet de Mar",                 p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Andreu de Llavaneres",    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Vicenç de Montalt",       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Calella",                      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Pineda de Mar",                p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Malgrat de Mar",               p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Palafolls",                    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Tordera",                      p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Arenys de Munt",               p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Caldes de Montbui",            p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Celoni",                  p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Llinars del Vallès",           p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sitges",                       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Igualada",                     p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Vic",                          p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Berga",                        p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Abrera",                       p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Olesa de Montserrat",          p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Vallromanes",                  p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Martorelles",                  p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Climent de Llobregat",    p:"Barcelona", c:"Cataluña", t:true, d:"2024-03" },
+  // CATALUÑA — Provincia de Girona
+  { n:"Girona",                       p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Salt",                         p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Lloret de Mar",                p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Blanes",                       p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Figueres",                     p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Olot",                         p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Platja d'Aro",                 p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Roses",                        p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Sant Feliu de Guíxols",        p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Palafrugell",                  p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Palamós",                      p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Banyoles",                     p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Ripoll",                       p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Santa Coloma de Farners",      p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Cassà de la Selva",            p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Llagostera",                   p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Caldes de Malavella",          p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Vidreres",                     p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Torroella de Montgrí",         p:"Girona",    c:"Cataluña", t:true, d:"2024-03" },
+  // CATALUÑA — Provincia de Tarragona
+  { n:"Tarragona",                    p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Reus",                         p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Cambrils",                     p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Salou",                        p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Vila-seca",                    p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Valls",                        p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"El Vendrell",                  p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Calafell",                     p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Cunit",                        p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Torredembarra",                p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Altafulla",                    p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Amposta",                      p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Tortosa",                      p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Constantí",                    p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"La Canonja",                   p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Creixell",                     p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Roda de Berà",                 p:"Tarragona", c:"Cataluña", t:true, d:"2024-03" },
+  // CATALUÑA — Provincia de Lleida
+  { n:"Lleida",                       p:"Lleida",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Tàrrega",                      p:"Lleida",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Balaguer",                     p:"Lleida",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"Mollerussa",                   p:"Lleida",    c:"Cataluña", t:true, d:"2024-03" },
+  { n:"La Seu d'Urgell",              p:"Lleida",    c:"Cataluña", t:true, d:"2024-03" },
+  // PAÍS VASCO
+  { n:"Bilbao",                       p:"Bizkaia",   c:"País Vasco", t:true, d:"2026-01",
+    nota:"Declarada zona tensionada. El índice de precios de referencia está pendiente de publicación oficial para su plena operatividad." },
+];
+
+// ─────────────────────────────────────────
+// IRAV — Valores confirmados por mes (INE)
+// ─────────────────────────────────────────
+const IRAV = {
+  "2026-01": 2.29, "2026-02": 2.29, "2026-03": 2.40,
+  "2026-04": 2.40, "2026-05": 2.47, "2026-06": 2.47, // junio: se usa mayo (último publicado)
+  "2026-07": 2.47, "2026-08": 2.47, "2026-09": 2.47,
+  "2026-10": 2.47, "2026-11": 2.47, "2026-12": 2.47,
+};
+const IRAV_ACTUAL_MES = "mayo 2026";
+
+// IPC estimado 2026 (hasta último dato disponible, orientativo)
+const IPC_2026 = 3.2;
+
+// ─────────────────────────────────────────
+// BUSCADOR DE MUNICIPIOS
+// ─────────────────────────────────────────
+const input    = document.getElementById('municipioInput');
+const clearBtn = document.getElementById('clearBtn');
+const suggs    = document.getElementById('suggestionsList');
+const rT  = document.getElementById('resultTensionada');
+const rNT = document.getElementById('resultNoTensionada');
+const rNF = document.getElementById('resultNotFound');
+let focusedIdx = -1;
+
+function normalize(s) {
+  return s.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[''']/g, "'");
+}
+
+function hideAll() {
+  [rT, rNT, rNF].forEach(r => r.classList.remove('visible'));
+}
+
+function showResult(municipio) {
+  hideAll();
+  if (!municipio) { rNF.classList.add('visible'); return; }
+
+  if (municipio.t) {
+    rT.classList.add('visible');
+    document.getElementById('resultMunicipioNombre').textContent = municipio.n + ', ' + municipio.p;
+    const desde = municipio.d
+      ? new Date(municipio.d + '-01').toLocaleDateString('es-ES', { month:'long', year:'numeric' })
+      : 'marzo 2024';
+    let info = `${municipio.c} · Declarada zona tensionada desde ${desde}.`;
+    if (municipio.nota) info += ' ' + municipio.nota;
+    document.getElementById('resultMunicipioInfo').textContent = info;
+  } else {
+    rNT.classList.add('visible');
+    document.getElementById('resultNTMunicipioNombre').textContent = municipio.n + ', ' + municipio.p;
+  }
+}
+
+function updateSuggestions(query) {
+  const q = normalize(query);
+  if (q.length < 2) { suggs.classList.remove('open'); return; }
+
+  const matches = MUNICIPIOS.filter(m =>
+    normalize(m.n).includes(q) || normalize(m.p).includes(q)
+  ).slice(0, 8);
+
+  if (!matches.length) { suggs.classList.remove('open'); return; }
+
+  suggs.innerHTML = matches.map((m, i) =>
+    `<div class="suggestion-item" role="option" data-idx="${i}" data-nombre="${m.n}">
+      ${m.n} <small>${m.p}, ${m.c}</small>
+    </div>`
+  ).join('');
+
+  suggs._matches = matches;
+  focusedIdx = -1;
+  suggs.classList.add('open');
+
+  suggs.querySelectorAll('.suggestion-item').forEach(el => {
+    el.addEventListener('mousedown', e => {
+      e.preventDefault();
+      selectMunicipio(matches[+el.dataset.idx]);
+    });
+  });
+}
+
+function selectMunicipio(m) {
+  input.value = m.n;
+  suggs.classList.remove('open');
+  clearBtn.classList.add('visible');
+  showResult(m);
+}
+
+input.addEventListener('input', () => {
+  clearBtn.classList.toggle('visible', input.value.length > 0);
+  hideAll();
+  updateSuggestions(input.value);
+});
+
+input.addEventListener('keydown', e => {
+  const items = suggs.querySelectorAll('.suggestion-item');
+  if (!items.length) {
+    if (e.key === 'Enter') {
+      const q = normalize(input.value);
+      const exact = MUNICIPIOS.find(m => normalize(m.n) === q);
+      showResult(exact || null);
+      suggs.classList.remove('open');
+    }
+    return;
+  }
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    focusedIdx = Math.min(focusedIdx + 1, items.length - 1);
+    items.forEach((el, i) => el.classList.toggle('focused', i === focusedIdx));
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    focusedIdx = Math.max(focusedIdx - 1, 0);
+    items.forEach((el, i) => el.classList.toggle('focused', i === focusedIdx));
+  } else if (e.key === 'Enter' && focusedIdx >= 0) {
+    e.preventDefault();
+    selectMunicipio(suggs._matches[focusedIdx]);
+  } else if (e.key === 'Escape') {
+    suggs.classList.remove('open');
+  }
+});
+
+input.addEventListener('blur', () => {
+  setTimeout(() => suggs.classList.remove('open'), 150);
+});
+
+clearBtn.addEventListener('click', () => {
+  input.value = '';
+  clearBtn.classList.remove('visible');
+  hideAll();
+  suggs.classList.remove('open');
+  input.focus();
+});
+
+// ─────────────────────────────────────────
+// CALCULADORA IRAV
+// ─────────────────────────────────────────
+const tipoContrato  = document.getElementById('tipoContrato');
+const mesRenovacion = document.getElementById('mesRenovacion');
+const mesGroup      = document.getElementById('mesIravGroup');
+
+tipoContrato.addEventListener('change', () => {
+  mesGroup.style.display = tipoContrato.value === 'pre2023' ? 'none' : '';
+});
+
+function fmt(n) {
+  return n.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+}
+
+document.getElementById('calcularBtn').addEventListener('click', () => {
+  const renta = parseFloat(document.getElementById('rentaActual').value);
+  if (!renta || renta <= 0) {
+    alert('Introduce la renta mensual actual.');
+    return;
+  }
+
+  const tipo = tipoContrato.value;
+  const mes  = mesRenovacion.value;
+
+  let indice, indiceLabel, mesPrevio, nota;
+
+  if (tipo === 'pre2023') {
+    // Contratos pre-26/05/2023 → IPC
+    indice = IPC_2026;
+    indiceLabel = `IPC estimado 2026: ${indice}%`;
+    nota = 'Contrato anterior al 26/05/2023: se aplica el IPC como índice de referencia. Desde 2025 ya no existe el tope extraordinario del 3%. El dato del IPC es orientativo; consulta el IPC del mes anterior a tu renovación en ine.es.';
+  } else {
+    // Contratos post-26/05/2023 → IRAV (mes anterior al de renovación)
+    const [year, month] = mes.split('-').map(Number);
+    const prevMonth = month === 1
+      ? `${year - 1}-12`
+      : `${year}-${String(month - 1).padStart(2, '0')}`;
+    indice = IRAV[prevMonth] || IRAV[mes] || 2.47;
+    const prevLabel = new Date(prevMonth + '-01').toLocaleDateString('es-ES', { month:'long', year:'numeric' });
+    indiceLabel = `IRAV ${prevLabel} (INE): ${indice}%`;
+    mesPrevio = prevLabel;
+    nota = `El IRAV que aplica es el del mes anterior a la renovación (${prevLabel}). Dato publicado por el INE. Desde el 29/04/2026 no existe tope extraordinario — se aplica el IRAV completo.`;
+  }
+
+  const subida     = renta * indice / 100;
+  const nuevaRenta = renta + subida;
+  const difAnual   = subida * 12;
+
+  document.getElementById('iravPct').textContent       = indice.toFixed(2);
+  document.getElementById('iravMesRef').textContent    = indiceLabel;
+  document.getElementById('rentaActualDisplay').textContent = fmt(renta);
+  document.getElementById('subidaDisplay').textContent      = '+' + fmt(subida) + '/mes';
+  document.getElementById('nuevaRentaDisplay').textContent  = fmt(nuevaRenta);
+  document.getElementById('difAnualDisplay').textContent    = '+' + fmt(difAnual) + '/año';
+  document.getElementById('iravNota').textContent           = nota;
+
+  document.getElementById('iravResult').classList.add('visible');
+  document.getElementById('iravResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+});
+</script>
+</body>
+</html>
