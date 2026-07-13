@@ -389,6 +389,36 @@
       padding-top: 0.6rem;
     }
 
+    /* ── CCAA + DESTACADOS (enlazado estático) ── */
+    .ccaa-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    @media (max-width: 780px) { .ccaa-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 420px) { .ccaa-grid { grid-template-columns: 1fr; } }
+
+    .ccaa-card {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem 1rem;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.3rem;
+      transition: border-color .15s, box-shadow .15s, transform .15s;
+    }
+    .ccaa-card:hover { border-color: var(--navy); box-shadow: 0 4px 20px rgba(30,58,95,0.12); transform: translateY(-2px); }
+    .ccaa-name { font-family: var(--font-h); font-weight: 700; font-size: 1rem; color: var(--text); }
+    .ccaa-count { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+
+    .destacados-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.5rem;
+    }
+    .destacados-grid a {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 0.8rem; background: var(--card);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--navy); text-decoration: none; font-size: 0.88rem; font-weight: 500;
+      transition: border-color .15s, background .15s;
+    }
+    .destacados-grid a::before { content: '📍'; font-size: 0.72rem; }
+    .destacados-grid a:hover { border-color: var(--navy); background: var(--bg); }
+
     /* ── INFO SECTION ── */
     .info-section { margin-top: 2.5rem; }
     .info-section h2 {
@@ -580,6 +610,51 @@
       </div>
     </div>
   </div><!-- end tools-grid -->
+
+  <!-- ENLAZADO ESTÁTICO AL CLÚSTER (visible en HTML crudo, sin JS) -->
+  <div class="info-section">
+    <h2>Explora por comunidad autónoma</h2>
+    <div class="ccaa-grid">
+      <a href="/zona-tensionada/cataluna/" class="ccaa-card">
+        <span class="ccaa-name">Cataluña</span>
+        <span class="ccaa-count">271 municipios</span>
+      </a>
+      <a href="/zona-tensionada/pais-vasco/" class="ccaa-card">
+        <span class="ccaa-name">País Vasco</span>
+        <span class="ccaa-count">17 municipios</span>
+      </a>
+      <a href="/zona-tensionada/navarra/" class="ccaa-card">
+        <span class="ccaa-name">Navarra</span>
+        <span class="ccaa-count">21 municipios</span>
+      </a>
+      <a href="/zona-tensionada/galicia/" class="ccaa-card">
+        <span class="ccaa-name">Galicia</span>
+        <span class="ccaa-count">1 municipio</span>
+      </a>
+    </div>
+
+    <h2 style="margin-top:2rem;">Consulta directa por municipio</h2>
+    <div class="destacados-grid">
+      <a href="/zona-tensionada/barcelona/">Barcelona</a>
+      <a href="/zona-tensionada/girona/">Girona</a>
+      <a href="/zona-tensionada/tarragona/">Tarragona</a>
+      <a href="/zona-tensionada/lleida/">Lleida</a>
+      <a href="/zona-tensionada/bilbao/">Bilbao</a>
+      <a href="/zona-tensionada/donostia/">Donostia/San Sebastián</a>
+      <a href="/zona-tensionada/vitoria-gasteiz/">Vitoria-Gasteiz</a>
+      <a href="/zona-tensionada/pamplona/">Pamplona/Iruña</a>
+      <a href="/zona-tensionada/a-coruna/">A Coruña</a>
+      <a href="/zona-tensionada/terrassa/">Terrassa</a>
+      <a href="/zona-tensionada/sabadell/">Sabadell</a>
+      <a href="/zona-tensionada/badalona/">Badalona</a>
+      <a href="/zona-tensionada/reus/">Reus</a>
+      <a href="/zona-tensionada/manresa/">Manresa</a>
+      <a href="/zona-tensionada/figueres/">Figueres</a>
+      <a href="/zona-tensionada/irun/">Irun</a>
+      <a href="/zona-tensionada/barakaldo/">Barakaldo</a>
+      <a href="/zona-tensionada/tudela/">Tudela</a>
+    </div>
+  </div>
 
   <!-- INFO SEO -->
   <div class="info-section">

@@ -138,6 +138,23 @@
     .tool-cta::after { content: '→'; transition: transform .15s; }
     .tool-card:hover .tool-cta::after { transform: translateX(3px); }
 
+    /* CCAA */
+    .ccaa-section { max-width: 900px; margin: 0 auto; padding: 0 1.25rem 3rem; }
+    .ccaa-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    @media (max-width: 780px) { .ccaa-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 420px) { .ccaa-grid { grid-template-columns: 1fr; } }
+
+    .ccaa-card {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem 1rem;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.3rem;
+      transition: border-color .15s, box-shadow .15s, transform .15s;
+    }
+    .ccaa-card:hover { border-color: var(--navy); box-shadow: 0 4px 20px rgba(30,58,95,0.12); transform: translateY(-2px); }
+    .ccaa-name { font-family: var(--font-h); font-weight: 700; font-size: 1rem; color: var(--text); }
+    .ccaa-count { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+
     /* WHY */
     .why-section { background: var(--navy); padding: 3rem 1.5rem; }
     .why-inner { max-width: 860px; margin: 0 auto; }
@@ -208,6 +225,28 @@
       <span class="tool-cta">Calcular mi reducción</span>
     </a>
 
+  </div>
+</div>
+
+<div class="ccaa-section">
+  <div class="section-label">Explora por comunidad autónoma</div>
+  <div class="ccaa-grid">
+    <a href="/zona-tensionada/cataluna/" class="ccaa-card">
+      <span class="ccaa-name">Cataluña</span>
+      <span class="ccaa-count">271 municipios</span>
+    </a>
+    <a href="/zona-tensionada/pais-vasco/" class="ccaa-card">
+      <span class="ccaa-name">País Vasco</span>
+      <span class="ccaa-count">17 municipios</span>
+    </a>
+    <a href="/zona-tensionada/navarra/" class="ccaa-card">
+      <span class="ccaa-name">Navarra</span>
+      <span class="ccaa-count">21 municipios</span>
+    </a>
+    <a href="/zona-tensionada/galicia/" class="ccaa-card">
+      <span class="ccaa-name">Galicia</span>
+      <span class="ccaa-count">1 municipio</span>
+    </a>
   </div>
 </div>
 
