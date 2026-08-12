@@ -79,9 +79,20 @@ const MUNICIPIOS = [
     "San Adrián","Peralta/Azkoien"
   ].map(n => ({ n, p:"Navarra", c:"Navarra", t:true, d:"2025-07" })),
 
-  // GALICIA — Resolución 28/07/2025
+  // GALICIA — Resolución 28/07/2025 + Resolución 24/07/2026
   { n:"A Coruña", p:"A Coruña", c:"Galicia", t:true, d:"2025-07" },
+  { n:"Santiago de Compostela", p:"A Coruña", c:"Galicia", t:true, d:"2026-07" },
+
+  // ASTURIAS — Resolución 24/07/2026 (5 municipios, BOE-A-2026-16532)
+  { n:"Gijón",   p:"Asturias", c:"Asturias", t:true, d:"2026-07", nota:"Declarada solo en los barrios de La Arena y Cimadevilla, no todo el municipio." },
+  { n:"Avilés",  p:"Asturias", c:"Asturias", t:true, d:"2026-07", nota:"Declarada solo en el barrio de La Magdalena, no todo el municipio." },
+  { n:"Llanes",  p:"Asturias", c:"Asturias", t:true, d:"2026-07", nota:"Incluye el núcleo urbano y los núcleos de Posada de Llanes, Nueva, Poo, Barro y Celorio." },
+  { n:"Gozón",   p:"Asturias", c:"Asturias", t:true, d:"2026-07" },
+  { n:"Cabrales",p:"Asturias", c:"Asturias", t:true, d:"2026-07", nota:"Incluye los núcleos de Arenas y Poo." },
 ];
+
+// PAÍS VASCO — Resolución 24/07/2026 añade Basauri (Bizkaia)
+MUNICIPIOS.push({ n:"Basauri", p:"Bizkaia", c:"País Vasco", t:true, d:"2026-07" });
 
 // ── PROVINCIA REAL PARA MUNICIPIOS CATALANES ──────────────────────────────────
 // Corrige p:"Cataluña" → provincia real (Barcelona / Girona / Tarragona / Lleida).
@@ -169,13 +180,13 @@ MUNICIPIOS.forEach(m => {
 
 // ── IRAV — Valores mensuales publicados por el INE ────────────────────────────
 // Actualizar cada mes cuando el INE publique el nuevo dato.
+// 2026-07 en adelante: aún no publicado por el INE a fecha de este commit.
 const IRAV = {
-  "2026-01": 2.29, "2026-02": 2.29, "2026-03": 2.40,
-  "2026-04": 2.40, "2026-05": 2.47, "2026-06": 2.47,
-  "2026-07": 2.47, "2026-08": 2.47, "2026-09": 2.47,
-  "2026-10": 2.47, "2026-11": 2.47, "2026-12": 2.47,
+  "2026-01": 2.29, "2026-02": 2.29, "2026-03": 2.40, "2026-04": 2.40,
+  "2026-05": 2.48, "2026-06": 2.44,
 };
-const IRAV_ACTUAL_MES = "mayo 2026";
+// Actualizar cada vez que el INE publique un dato nuevo.
+const IRAV_ULTIMO_MES_DISPONIBLE = "2026-06";
 const IPC_2026 = 3.2;
 
 // ── UTILITY FUNCTIONS ─────────────────────────────────────────────────────────
@@ -222,10 +233,18 @@ function initCalculadoraIRAV(opts) {
       const prevMonth = month === 1
         ? `${year - 1}-12`
         : `${year}-${String(month - 1).padStart(2, '0')}`;
-      indice = IRAV[prevMonth] || IRAV[mes] || 2.47;
       const prevLabel = new Date(prevMonth + '-01').toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
-      indiceLabel = `IRAV ${prevLabel} (INE): ${indice}%`;
-      nota = `El IRAV aplicable es el del mes anterior a la renovación (${prevLabel}). Desde el 29/04/2026 no existe tope extraordinario — se aplica el IRAV completo.`;
+
+      if (IRAV[prevMonth] !== undefined) {
+        indice      = IRAV[prevMonth];
+        indiceLabel = `IRAV ${prevLabel} (INE): ${indice}%`;
+        nota        = `El IRAV aplicable es el del mes anterior a la renovación (${prevLabel}). Desde el 29/04/2026 no existe tope extraordinario — se aplica el IRAV completo.`;
+      } else {
+        indice = IRAV[IRAV_ULTIMO_MES_DISPONIBLE];
+        const ultimoLabel = new Date(IRAV_ULTIMO_MES_DISPONIBLE + '-01').toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+        indiceLabel = `IRAV ${ultimoLabel} (INE): ${indice}% — último dato disponible`;
+        nota        = `El INE aún no ha publicado el IRAV de ${prevLabel}. Mostrando el último dato disponible (${ultimoLabel}, ${indice.toFixed(2).replace('.', ',')}%) como referencia — verifica en ine.es antes de aplicar la subida.`;
+      }
     }
 
     const subida     = renta * indice / 100;

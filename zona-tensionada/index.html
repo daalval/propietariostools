@@ -390,8 +390,9 @@
     }
 
     /* ── CCAA + DESTACADOS (enlazado estático) ── */
-    .ccaa-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
-    @media (max-width: 780px) { .ccaa-grid { grid-template-columns: repeat(2, 1fr); } }
+    .ccaa-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    @media (max-width: 900px) { .ccaa-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 560px) { .ccaa-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 420px) { .ccaa-grid { grid-template-columns: 1fr; } }
 
     .ccaa-card {
@@ -538,7 +539,7 @@
       <div class="result-box result-notfound" id="resultNotFound">
         <div class="result-pill pill-gray">Municipio no encontrado</div>
         <h3>No encontramos ese municipio</h3>
-        <p>No figura en nuestra base de datos. Los municipios declarados zona tensionada son 310, repartidos en cuatro comunidades autónomas: Cataluña, País Vasco, Navarra y Galicia. Verifica directamente en el registro oficial.</p>
+        <p>No figura en nuestra base de datos. Los municipios declarados zona tensionada son 317, repartidos en cinco comunidades autónomas: Cataluña, País Vasco, Navarra, Galicia y Asturias. Verifica directamente en el registro oficial.</p>
         <div class="detail">
           <a href="https://www.mivau.gob.es/vivienda/alquila-bien-es-tu-derecho/serpavi/consultar-zonas-de-mercado-residencial-tensionado" target="_blank" rel="noopener">Consultar registro oficial MIVAU →</a>
         </div>
@@ -629,7 +630,11 @@
       </a>
       <a href="/zona-tensionada/galicia/" class="ccaa-card">
         <span class="ccaa-name">Galicia</span>
-        <span class="ccaa-count">1 municipio</span>
+        <span class="ccaa-count">2 municipios</span>
+      </a>
+      <a href="/zona-tensionada/asturias/" class="ccaa-card">
+        <span class="ccaa-name">Asturias</span>
+        <span class="ccaa-count">5 municipios</span>
       </a>
     </div>
 
@@ -662,7 +667,7 @@
 
     <div class="faq-item">
       <h3>¿Qué es una zona de mercado residencial tensionado?</h3>
-      <p>Es un ámbito territorial declarado oficialmente por la comunidad autónoma correspondiente cuando el coste del alquiler o hipoteca supera el <strong>30% de la renta media de los hogares</strong>, o cuando los precios han subido más de 3 puntos sobre el IPC en los últimos 5 años. A junio de 2026, <strong>310 municipios</strong> están declarados en cuatro comunidades autónomas: <strong>Cataluña (271)</strong>, <strong>País Vasco (17)</strong>, <strong>Navarra (21)</strong> y <strong>Galicia (A Coruña)</strong>. Madrid, Valencia y Andalucía no han activado el mecanismo a día de hoy.</p>
+      <p>Es un ámbito territorial declarado oficialmente por la comunidad autónoma correspondiente cuando el coste del alquiler o hipoteca supera el <strong>30% de la renta media de los hogares</strong>, o cuando los precios han subido más de 3 puntos sobre el IPC en los últimos 5 años. A julio de 2026, <strong>317 municipios</strong> están declarados en cinco comunidades autónomas: <strong>Cataluña (271)</strong>, <strong>País Vasco (18)</strong>, <strong>Navarra (21)</strong>, <strong>Galicia (2)</strong> y <strong>Asturias (5)</strong>. Madrid, Valencia y Andalucía no han activado el mecanismo a día de hoy.</p>
     </div>
 
     <div class="faq-item">
@@ -672,7 +677,7 @@
 
     <div class="faq-item">
       <h3>¿Cuál es el IRAV en junio de 2026?</h3>
-      <p>El último IRAV publicado por el INE es el de <strong>mayo de 2026: 2,47%</strong>. Si tu contrato se renueva en junio de 2026, aplicas el IRAV de mayo. Si se renueva en otro mes, aplica el IRAV del mes anterior a la fecha de renovación.</p>
+      <p>El último IRAV publicado por el INE es el de <strong>junio de 2026: 2,44%</strong> (el de mayo de 2026 fue del 2,48%). Si tu contrato se renueva en julio de 2026, aplicas el IRAV de junio. Si se renueva en otro mes, aplica el IRAV del mes anterior a la fecha de renovación.</p>
     </div>
 
     <div class="faq-item">
@@ -792,21 +797,34 @@ const MUNICIPIOS = [
   ].map(n => ({ n, p:"Navarra", c:"Navarra", t:true, d:"2025-07" })),
 
   // ═══════════════════════════════════════════════════════
-  // GALICIA — 1 municipio (Resolución 28/07/2025)
+  // GALICIA — 2 municipios (Resolución 28/07/2025 + 24/07/2026)
   // ═══════════════════════════════════════════════════════
   { n:"A Coruña", p:"A Coruña", c:"Galicia", t:true, d:"2025-07" },
+  { n:"Santiago de Compostela", p:"A Coruña", c:"Galicia", t:true, d:"2026-07" },
+
+  // ═══════════════════════════════════════════════════════
+  // ASTURIAS — 5 municipios (Resolución 24/07/2026, BOE-A-2026-16532)
+  // ═══════════════════════════════════════════════════════
+  { n:"Gijón",   p:"Asturias", c:"Asturias", t:true, d:"2026-07", nota:"Declarada solo en los barrios de La Arena y Cimadevilla, no todo el municipio." },
+  { n:"Avilés",  p:"Asturias", c:"Asturias", t:true, d:"2026-07", nota:"Declarada solo en el barrio de La Magdalena, no todo el municipio." },
+  { n:"Llanes",  p:"Asturias", c:"Asturias", t:true, d:"2026-07", nota:"Incluye el núcleo urbano y los núcleos de Posada de Llanes, Nueva, Poo, Barro y Celorio." },
+  { n:"Gozón",   p:"Asturias", c:"Asturias", t:true, d:"2026-07" },
+  { n:"Cabrales",p:"Asturias", c:"Asturias", t:true, d:"2026-07", nota:"Incluye los núcleos de Arenas y Poo." },
 ];
+
+// PAÍS VASCO — Resolución 24/07/2026 añade Basauri (Bizkaia)
+MUNICIPIOS.push({ n:"Basauri", p:"Bizkaia", c:"País Vasco", t:true, d:"2026-07" });
 
 // ─────────────────────────────────────────
 // IRAV — Valores confirmados por mes (INE)
 // ─────────────────────────────────────────
+// 2026-07 en adelante: aún no publicado por el INE a fecha de este commit.
 const IRAV = {
-  "2026-01": 2.29, "2026-02": 2.29, "2026-03": 2.40,
-  "2026-04": 2.40, "2026-05": 2.47, "2026-06": 2.47, // junio: se usa mayo (último publicado)
-  "2026-07": 2.47, "2026-08": 2.47, "2026-09": 2.47,
-  "2026-10": 2.47, "2026-11": 2.47, "2026-12": 2.47,
+  "2026-01": 2.29, "2026-02": 2.29, "2026-03": 2.40, "2026-04": 2.40,
+  "2026-05": 2.48, "2026-06": 2.44,
 };
-const IRAV_ACTUAL_MES = "mayo 2026";
+// Actualizar cada vez que el INE publique un dato nuevo.
+const IRAV_ULTIMO_MES_DISPONIBLE = "2026-06";
 
 // IPC estimado 2026 (hasta último dato disponible, orientativo)
 const IPC_2026 = 3.2;
@@ -956,7 +974,7 @@ document.getElementById('calcularBtn').addEventListener('click', () => {
   const tipo = tipoContrato.value;
   const mes  = mesRenovacion.value;
 
-  let indice, indiceLabel, mesPrevio, nota;
+  let indice, indiceLabel, nota;
 
   if (tipo === 'pre2023') {
     // Contratos pre-26/05/2023 → IPC
@@ -969,11 +987,18 @@ document.getElementById('calcularBtn').addEventListener('click', () => {
     const prevMonth = month === 1
       ? `${year - 1}-12`
       : `${year}-${String(month - 1).padStart(2, '0')}`;
-    indice = IRAV[prevMonth] || IRAV[mes] || 2.47;
     const prevLabel = new Date(prevMonth + '-01').toLocaleDateString('es-ES', { month:'long', year:'numeric' });
-    indiceLabel = `IRAV ${prevLabel} (INE): ${indice}%`;
-    mesPrevio = prevLabel;
-    nota = `El IRAV que aplica es el del mes anterior a la renovación (${prevLabel}). Dato publicado por el INE. Desde el 29/04/2026 no existe tope extraordinario — se aplica el IRAV completo.`;
+
+    if (IRAV[prevMonth] !== undefined) {
+      indice = IRAV[prevMonth];
+      indiceLabel = `IRAV ${prevLabel} (INE): ${indice}%`;
+      nota = `El IRAV que aplica es el del mes anterior a la renovación (${prevLabel}). Dato publicado por el INE. Desde el 29/04/2026 no existe tope extraordinario — se aplica el IRAV completo.`;
+    } else {
+      indice = IRAV[IRAV_ULTIMO_MES_DISPONIBLE];
+      const ultimoLabel = new Date(IRAV_ULTIMO_MES_DISPONIBLE + '-01').toLocaleDateString('es-ES', { month:'long', year:'numeric' });
+      indiceLabel = `IRAV ${ultimoLabel} (INE): ${indice}% — último dato disponible`;
+      nota = `El INE aún no ha publicado el IRAV de ${prevLabel}. Mostrando el último dato disponible (${ultimoLabel}, ${indice.toFixed(2).replace('.', ',')}%) como referencia — verifica en ine.es antes de aplicar la subida.`;
+    }
   }
 
   const subida     = renta * indice / 100;

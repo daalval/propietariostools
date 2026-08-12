@@ -41,12 +41,18 @@
   </url>
   <url>
     <loc>https://propietariostools.es/zona-tensionada/galicia/</loc>
-    <lastmod>2026-06-19</lastmod>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://propietariostools.es/zona-tensionada/asturias/</loc>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 310 páginas de municipio — Cataluña (Resolución 2024-03) -->
+  <!-- 317 páginas de municipio — Cataluña (Resolución 2024-03) -->
   <url><loc>https://propietariostools.es/zona-tensionada/abrera/</loc><lastmod>2026-06-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://propietariostools.es/zona-tensionada/alella/</loc><lastmod>2026-06-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://propietariostools.es/zona-tensionada/amposta/</loc><lastmod>2026-06-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -365,4 +371,15 @@
 
   <!-- Galicia -->
   <url><loc>https://propietariostools.es/zona-tensionada/a-coruna/</loc><lastmod>2026-06-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://propietariostools.es/zona-tensionada/santiago-de-compostela/</loc><lastmod>2026-08-12</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- País Vasco — Resolución 2026-07 -->
+  <url><loc>https://propietariostools.es/zona-tensionada/basauri/</loc><lastmod>2026-08-12</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Asturias -->
+  <url><loc>https://propietariostools.es/zona-tensionada/gijon/</loc><lastmod>2026-08-12</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://propietariostools.es/zona-tensionada/aviles/</loc><lastmod>2026-08-12</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://propietariostools.es/zona-tensionada/llanes/</loc><lastmod>2026-08-12</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://propietariostools.es/zona-tensionada/gozon/</loc><lastmod>2026-08-12</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://propietariostools.es/zona-tensionada/cabrales/</loc><lastmod>2026-08-12</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
