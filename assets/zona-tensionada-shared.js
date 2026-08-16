@@ -180,13 +180,13 @@ MUNICIPIOS.forEach(m => {
 
 // ── IRAV — Valores mensuales publicados por el INE ────────────────────────────
 // Actualizar cada mes cuando el INE publique el nuevo dato.
-// 2026-07 en adelante: aún no publicado por el INE a fecha de este commit.
+// 2026-08 en adelante: aún no publicado por el INE a fecha de este commit.
 const IRAV = {
   "2026-01": 2.29, "2026-02": 2.29, "2026-03": 2.40, "2026-04": 2.40,
-  "2026-05": 2.48, "2026-06": 2.44,
+  "2026-05": 2.48, "2026-06": 2.44, "2026-07": 2.49,
 };
 // Actualizar cada vez que el INE publique un dato nuevo.
-const IRAV_ULTIMO_MES_DISPONIBLE = "2026-06";
+const IRAV_ULTIMO_MES_DISPONIBLE = "2026-07";
 const IPC_2026 = 3.2;
 
 // ── UTILITY FUNCTIONS ─────────────────────────────────────────────────────────

@@ -257,6 +257,15 @@
     .normativa-box p { font-size: 0.83rem; color: #1D4ED8; line-height: 1.6; }
     .normativa-box strong { color: #1E3A8A; }
 
+    /* Aviso informativo no bloqueante */
+    .aviso-box {
+      background: #FFF7E6; border: 1px solid #F5D492;
+      border-radius: 10px; padding: 1.1rem 1.25rem; margin-top: 1rem;
+      display: none;
+    }
+    .aviso-box.visible { display: block; }
+    .aviso-box p { font-size: 0.83rem; color: #92400E; line-height: 1.6; }
+
     /* CTA zona tensionada */
     .cta-zona {
       background: var(--bg); border: 1.5px solid var(--border);
@@ -406,11 +415,11 @@
       </div>
     </div>
 
-    <!-- PASO 3B: Inquilino joven o rehabilitación (zona tensionada, sin rebaja) -->
+    <!-- PASO 3B: Inquilino joven (zona tensionada, sin rebaja) -->
     <div class="step" id="step3b">
       <div class="step-meta"><div class="step-num">3</div> Pregunta 3 de 4</div>
-      <h2>¿El inquilino tiene entre 18 y 35 años, o se encuentra en situación de vulnerabilidad?</h2>
-      <p class="sub">Vulnerabilidad: renta inferior a 3 veces el IPREM (22.558,77 €/año en 2026) y que el alquiler supere el 30% de sus ingresos.</p>
+      <h2>¿El inquilino tiene entre 18 y 35 años?</h2>
+      <p class="sub">La edad se acredita con el DNI/NIE del inquilino a fecha de firma del contrato.</p>
 
       <div class="options">
         <div class="option" data-val="si" onclick="selectOption(this,'step3b')">
@@ -424,7 +433,7 @@
           <div class="option-radio"></div>
           <div class="option-text">
             <strong>No</strong>
-            <span>Comprobamos si aplica la reducción por rehabilitación</span>
+            <span>Comprobamos si aplica por otra vía</span>
           </div>
         </div>
       </div>
@@ -432,6 +441,35 @@
       <div class="step-actions">
         <button type="button" class="btn-back" onclick="goBack('3b')">← Atrás</button>
         <button type="button" class="btn-next" id="next3b" disabled onclick="goNext('3b')">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASO 3C: Vivienda protegida arrendada a AP / entidad social / programa público (zona tensionada, sin rebaja, inquilino no joven) -->
+    <div class="step" id="step3c">
+      <div class="step-meta"><div class="step-num">3</div> Pregunta 3 de 4</div>
+      <h2>¿Alquilas la vivienda a una Administración Pública, a una entidad sin ánimo de lucro del tercer sector o de la economía social, o dentro de un programa público de vivienda que limita la renta?</h2>
+      <p class="sub">Incluye vivienda asequible incentivada o protegida arrendada en estas condiciones. No depende de las circunstancias personales del inquilino.</p>
+
+      <div class="options">
+        <div class="option" data-val="si" onclick="selectOption(this,'step3c')">
+          <div class="option-radio"></div>
+          <div class="option-text">
+            <strong>Sí</strong>
+            <span>Reducción del 70%</span>
+          </div>
+        </div>
+        <div class="option" data-val="no" onclick="selectOption(this,'step3c')">
+          <div class="option-radio"></div>
+          <div class="option-text">
+            <strong>No</strong>
+            <span>Comprobamos si aplica la reducción por rehabilitación</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-back" onclick="goBack('3c')">← Atrás</button>
+        <button type="button" class="btn-next" id="next3c" disabled onclick="goNext('3c')">Continuar →</button>
       </div>
     </div>
 
@@ -521,6 +559,10 @@
         <p id="normativaText">—</p>
       </div>
 
+      <div class="aviso-box" id="avisoIncorporacion">
+        <p>Esta reducción exige además que la vivienda se incorpore por primera vez al mercado de alquiler en zona tensionada — si la vivienda ya estaba alquilada anteriormente, consulta con un asesor fiscal antes de aplicarla.</p>
+      </div>
+
       <div class="cta-zona" id="ctaZona" style="display:none;">
         ¿Aún no sabes si tu municipio es zona tensionada? <a href="/zona-tensionada/">Compruébalo aquí →</a>
       </div>
@@ -549,7 +591,7 @@
         </tr>
         <tr>
           <td><span class="pct-badge" style="color:#1D4ED8">70%</span></td>
-          <td>Zona tensionada + inquilino 18-35 años o en situación de vulnerabilidad</td>
+          <td>Zona tensionada + inquilino de 18-35 años, o vivienda protegida arrendada a Administración Pública / entidad sin ánimo de lucro / programa público de renta limitada</td>
           <td>Post 26/05/2023</td>
         </tr>
         <tr>
@@ -581,8 +623,8 @@
     </div>
 
     <div class="faq-item">
-      <h3>¿Qué documentación necesito para justificar la reducción del 70% por inquilino joven?</h3>
-      <p>Debes poder acreditar la edad del inquilino (DNI/NIE) y, en caso de vulnerabilidad, sus ingresos. La <strong>Agencia Tributaria puede requerir esta documentación</strong> en caso de comprobación. Guarda también el contrato de arrendamiento con la fecha de firma y la identificación de las partes.</p>
+      <h3>¿Qué documentación necesito para justificar la reducción del 70%?</h3>
+      <p>Depende de la vía por la que accedes a ella. Si es por edad del inquilino, debes poder acreditarla con su DNI/NIE. Si es por alquilar a una Administración Pública, a una entidad sin ánimo de lucro del tercer sector o de la economía social, o dentro de un programa público de vivienda con renta limitada, conserva el contrato o convenio que acredite esa condición. La <strong>Agencia Tributaria puede requerir esta documentación</strong> en caso de comprobación. Guarda también el contrato de arrendamiento con la fecha de firma y la identificación de las partes.</p>
     </div>
 
     <div class="faq-item">
@@ -616,6 +658,7 @@ const state = {
   zonaTensionada: null,  // 'si' | 'no'
   rebajaRenta: null,     // 'si' | 'no'
   inquilinoJoven: null,  // 'si' | 'no'
+  entidadSocial: null,   // 'si' | 'no' — alquiler a AP / entidad sin ánimo de lucro / programa público de renta limitada
   rehabilitacion: null,  // 'si' | 'no'
 };
 
@@ -623,7 +666,9 @@ const STEPS_FLOW = {
   pre2023: ['step1', 'result'],
   post2023_no: ['step1', 'step2', 'step4', 'result'],
   post2023_si_rebaja: ['step1', 'step2', 'step3a', 'result'],
-  post2023_si_norebaja: ['step1', 'step2', 'step3a', 'step3b', 'step4', 'result'],
+  post2023_si_joven: ['step1', 'step2', 'step3a', 'step3b', 'result'],
+  post2023_si_entidad: ['step1', 'step2', 'step3a', 'step3b', 'step3c', 'result'],
+  post2023_si_ninguna: ['step1', 'step2', 'step3a', 'step3b', 'step3c', 'step4', 'result'],
 };
 
 function selectOption(el, stepId) {
@@ -636,6 +681,7 @@ function selectOption(el, stepId) {
   if (stepId === 'step2') { state.zonaTensionada = val; document.getElementById('next2').disabled = false; }
   if (stepId === 'step3a') { state.rebajaRenta = val; document.getElementById('next3a').disabled = false; }
   if (stepId === 'step3b') { state.inquilinoJoven = val; document.getElementById('next3b').disabled = false; }
+  if (stepId === 'step3c') { state.entidadSocial = val; document.getElementById('next3c').disabled = false; }
   if (stepId === 'step4') { state.rehabilitacion = val; document.getElementById('next4').disabled = false; }
 }
 
@@ -651,6 +697,9 @@ function goNext(stepNum) {
     showStep('step3b');
   } else if (stepNum === '3b') {
     if (state.inquilinoJoven === 'si') { showResult(); return; }
+    showStep('step3c');
+  } else if (stepNum === '3c') {
+    if (state.entidadSocial === 'si') { showResult(); return; }
     showStep('step4');
   } else if (stepNum === 4) {
     showResult();
@@ -661,10 +710,11 @@ function goBack(stepNum) {
   if (stepNum === 2) showStep('step1');
   if (stepNum === '3a') showStep('step2');
   if (stepNum === '3b') showStep('step3a');
+  if (stepNum === '3c') showStep('step3b');
   if (stepNum === 4) {
     if (state.zonaTensionada === 'no') showStep('step2');
     else if (state.rebajaRenta === 'si') showStep('step3a');
-    else showStep('step3b');
+    else showStep('step3c');
   }
 }
 
@@ -676,7 +726,7 @@ function showStep(id) {
 }
 
 function updateProgress(id) {
-  const map = { step1: 20, step2: 40, step3a: 55, step3b: 70, step4: 85 };
+  const map = { step1: 17, step2: 33, step3a: 50, step3b: 62, step3c: 74, step4: 87 };
   document.getElementById('progressFill').style.width = (map[id] || 100) + '%';
 }
 
@@ -688,7 +738,8 @@ function calcularReduccion() {
     return {
       pct: 60, motivo: 'Régimen transitorio (contrato pre-26/05/2023)',
       normativa: 'Los contratos firmados antes del 26 de mayo de 2023 mantienen la reducción del <strong>60%</strong> según la Disposición Transitoria 38ª de la LIRPF. Esta reducción se aplica sobre el rendimiento neto positivo del capital inmobiliario declarado correctamente en la autoliquidación.',
-      showCtaZona: false
+      showCtaZona: false,
+      showAvisoIncorporacion: false
     };
   }
 
@@ -704,10 +755,10 @@ function calcularReduccion() {
   });
 
   if (state.zonaTensionada === 'si') {
-    // 70% zona tensionada + joven/vulnerable
+    // 70% zona tensionada + inquilino joven (18-35), o vivienda protegida arrendada a AP/entidad social/programa público
     tramos.push({
-      pct: 70, nombre: 'Zona tensionada + inquilino joven o vulnerable',
-      aplica: state.inquilinoJoven === 'si', esBase: false
+      pct: 70, nombre: 'Zona tensionada + joven (18-35) o AP/entidad social',
+      aplica: state.inquilinoJoven === 'si' || state.entidadSocial === 'si', esBase: false
     });
     // 90% zona tensionada + rebaja ≥5%
     tramos.push({
@@ -723,7 +774,7 @@ function calcularReduccion() {
   const normas = {
     50: 'Reducción general del <strong>50%</strong> (Art. 23.2.a LIRPF, nuevo régimen Ley 12/2023). Si en el futuro el municipio es declarado zona tensionada o cambias las condiciones del contrato, podrías acceder a tramos superiores.',
     60: 'Reducción del <strong>60%</strong> por obras de rehabilitación o mejora energética (Art. 23.2.d LIRPF). Conserva la documentación de las obras (facturas, certificado de eficiencia energética) pues Hacienda puede requerirla.',
-    70: 'Reducción del <strong>70%</strong> por zona tensionada e inquilino menor de 35 años o en situación de vulnerabilidad (Art. 23.2.c LIRPF). Guarda copia del DNI del inquilino y, si aplica la vulnerabilidad, documentación de ingresos.',
+    70: 'Reducción del <strong>70%</strong> en zona tensionada, sin cumplir los requisitos del 90% (Art. 23.2.c LIRPF), cuando concurra alguna de estas circunstancias: que la vivienda se alquile a un inquilino de entre 18 y 35 años, o que se trate de vivienda asequible incentivada o protegida arrendada a una Administración Pública, a una entidad sin ánimo de lucro del tercer sector o de la economía social, o acogida a un programa público de vivienda que limite la renta del alquiler. Guarda la documentación que acredite la circunstancia aplicada (DNI del inquilino, o el contrato/convenio con la entidad o programa).',
     90: 'Reducción máxima del <strong>90%</strong> por zona tensionada y rebaja de renta ≥ 5% respecto al contrato anterior (Art. 23.2.b LIRPF). Es obligatorio que exista un contrato previo en los últimos 5 años y que la nueva renta sea al menos un 5% inferior a la que tenía vigente ese contrato.',
   };
 
@@ -733,6 +784,7 @@ function calcularReduccion() {
     tramos,
     normativa: normas[ganador.pct],
     showCtaZona: state.zonaTensionada === null,
+    showAvisoIncorporacion: ganador.pct === 90 || (ganador.pct === 70 && state.inquilinoJoven === 'si'),
   };
 }
 
@@ -748,6 +800,8 @@ function showResult() {
 
   if (r.showCtaZona) document.getElementById('ctaZona').style.display = 'block';
   else document.getElementById('ctaZona').style.display = 'none';
+
+  document.getElementById('avisoIncorporacion').classList.toggle('visible', !!r.showAvisoIncorporacion);
 
   // Comparativa de tramos
   if (r.tramos) {
@@ -812,7 +866,7 @@ function resetWizard() {
   document.getElementById('stepResult').classList.remove('active');
   document.getElementById('progressFill').style.width = '0%';
   document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-  ['next1','next2','next3a','next3b','next4'].forEach(id => {
+  ['next1','next2','next3a','next3b','next3c','next4'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.disabled = true;
   });
