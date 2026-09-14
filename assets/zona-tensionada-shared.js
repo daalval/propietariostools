@@ -179,15 +179,28 @@ MUNICIPIOS.forEach(m => {
 });
 
 // ── IRAV — Valores mensuales publicados por el INE ────────────────────────────
-// Actualizar cada mes cuando el INE publique el nuevo dato.
-// 2026-08 en adelante: aún no publicado por el INE a fecha de este commit.
+// Fuente: INE tabla 72975, variación anual definitiva.
+// https://www.ine.es/jaxiT3/Datos.htm?t=72975
+// Actualizar con `node scripts/update-irav.js` (o la GitHub Action mensual, días 13-18).
+// Si un mes no está en este objeto, la calculadora muestra el último disponible
+// CON aviso explícito — nunca un fallback numérico silencioso.
 const IRAV = {
-  "2026-01": 2.29, "2026-02": 2.29, "2026-03": 2.40, "2026-04": 2.40,
+  "2024-11": 2.20, "2024-12": 2.28,
+  "2025-01": 2.19, "2025-02": 2.08, "2025-03": 1.98, "2025-04": 2.09,
+  "2025-05": 1.99, "2025-06": 2.10, "2025-07": 2.15, "2025-08": 2.19,
+  "2025-09": 2.22, "2025-10": 2.25, "2025-11": 2.29, "2025-12": 2.32,
+  "2026-01": 2.14, "2026-02": 2.16, "2026-03": 2.47, "2026-04": 2.40,
   "2026-05": 2.48, "2026-06": 2.44, "2026-07": 2.49,
+  // 2026-08: aún no publicado por el INE a 2026-09-14.
 };
-// Actualizar cada vez que el INE publique un dato nuevo.
 const IRAV_ULTIMO_MES_DISPONIBLE = "2026-07";
+const IRAV_EJEMPLO_RENTA = 900;
 const IPC_2026 = 3.2;
+
+const MESES_ES = [
+  'enero','febrero','marzo','abril','mayo','junio',
+  'julio','agosto','septiembre','octubre','noviembre','diciembre'
+];
 
 // ── UTILITY FUNCTIONS ─────────────────────────────────────────────────────────
 function normalize(s) {
@@ -200,6 +213,53 @@ function fmt(n) {
   return n.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
 }
 
+function fmtPct(n) {
+  return n.toFixed(2).replace('.', ',');
+}
+
+function mesOffset(yyyyMm, delta) {
+  const [y, m] = yyyyMm.split('-').map(Number);
+  const d = new Date(y, m - 1 + delta, 1);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
+function mesLabelEs(yyyyMm) {
+  const [y, m] = yyyyMm.split('-').map(Number);
+  return `${MESES_ES[m - 1]} ${y}`;
+}
+
+function iravVigente() {
+  const key = IRAV_ULTIMO_MES_DISPONIBLE;
+  const valor = IRAV[key];
+  const subida = IRAV_EJEMPLO_RENTA * valor / 100;
+  const nueva = IRAV_EJEMPLO_RENTA + subida;
+  return {
+    pct: fmtPct(valor) + '%',
+    pctNum: fmtPct(valor),
+    mes: mesLabelEs(key),
+    aplicacion: mesLabelEs(mesOffset(key, 1)),
+    ejemploSubida: '+' + fmt(subida) + '/mes',
+    ejemploNueva: fmt(nueva) + '/mes',
+    ejemploAnual: '+' + fmt(subida * 12) + '/año',
+    ejemploSubidaFaq: fmt(subida) + '/mes adicionales',
+    ejemploNuevaFaq: fmt(nueva) + '/mes',
+  };
+}
+
+function hydrateIravCopy() {
+  const v = iravVigente();
+  document.querySelectorAll('[data-irav]').forEach(el => {
+    const key = el.getAttribute('data-irav');
+    if (v[key] != null) el.textContent = v[key];
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', hydrateIravCopy);
+} else {
+  hydrateIravCopy();
+}
+
 // ── CALCULATOR INITIALIZER ────────────────────────────────────────────────────
 // Call once per page to wire up the IRAV calculator.
 // opts: { rentaId, tipoId, mesId, mesGroupId, btnId, resultId,
@@ -208,6 +268,19 @@ function initCalculadoraIRAV(opts) {
   const tipoContrato  = document.getElementById(opts.tipoId);
   const mesRenovacion = document.getElementById(opts.mesId);
   const mesGroup      = document.getElementById(opts.mesGroupId);
+
+  const nowKey = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`;
+  if ([...mesRenovacion.options].some(o => o.value === nowKey)) {
+    mesRenovacion.value = nowKey;
+  }
+
+  [...mesRenovacion.options].forEach(opt => {
+    const prev = mesOffset(opt.value, -1);
+    if (IRAV[prev] === undefined && !opt.dataset.iravPendiente) {
+      opt.textContent += ' (índice pendiente)';
+      opt.dataset.iravPendiente = '1';
+    }
+  });
 
   tipoContrato.addEventListener('change', () => {
     mesGroup.style.display = tipoContrato.value === 'pre2023' ? 'none' : '';
@@ -222,28 +295,26 @@ function initCalculadoraIRAV(opts) {
 
     const tipo = tipoContrato.value;
     const mes  = mesRenovacion.value;
-    let indice, indiceLabel, nota;
+    let indice, indiceLabel, nota, pendiente = false;
 
     if (tipo === 'pre2023') {
       indice      = IPC_2026;
-      indiceLabel = `IPC estimado 2026: ${indice}%`;
+      indiceLabel = `IPC estimado 2026: ${fmtPct(indice)}%`;
       nota        = 'Contrato anterior al 26/05/2023: se aplica el IPC como índice de referencia. El dato es orientativo; consulta el IPC del mes anterior a tu renovación en ine.es.';
     } else {
-      const [year, month] = mes.split('-').map(Number);
-      const prevMonth = month === 1
-        ? `${year - 1}-12`
-        : `${year}-${String(month - 1).padStart(2, '0')}`;
-      const prevLabel = new Date(prevMonth + '-01').toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+      const prevMonth = mesOffset(mes, -1);
+      const prevLabel = mesLabelEs(prevMonth);
 
       if (IRAV[prevMonth] !== undefined) {
         indice      = IRAV[prevMonth];
-        indiceLabel = `IRAV ${prevLabel} (INE): ${indice}%`;
+        indiceLabel = `IRAV ${prevLabel} (INE): ${fmtPct(indice)}%`;
         nota        = `El IRAV aplicable es el del mes anterior a la renovación (${prevLabel}). Desde el 29/04/2026 no existe tope extraordinario — se aplica el IRAV completo.`;
       } else {
-        indice = IRAV[IRAV_ULTIMO_MES_DISPONIBLE];
-        const ultimoLabel = new Date(IRAV_ULTIMO_MES_DISPONIBLE + '-01').toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
-        indiceLabel = `IRAV ${ultimoLabel} (INE): ${indice}% — último dato disponible`;
-        nota        = `El INE aún no ha publicado el IRAV de ${prevLabel}. Mostrando el último dato disponible (${ultimoLabel}, ${indice.toFixed(2).replace('.', ',')}%) como referencia — verifica en ine.es antes de aplicar la subida.`;
+        pendiente   = true;
+        indice      = IRAV[IRAV_ULTIMO_MES_DISPONIBLE];
+        const ultimoLabel = mesLabelEs(IRAV_ULTIMO_MES_DISPONIBLE);
+        indiceLabel = `IRAV ${ultimoLabel} (INE): ${fmtPct(indice)}% — último dato disponible`;
+        nota        = `El INE aún no ha publicado el IRAV de ${prevLabel}. Mostrando el último dato disponible (${ultimoLabel}, ${fmtPct(indice)}%) como referencia — verifica en ine.es antes de aplicar la subida.`;
       }
     }
 
@@ -251,7 +322,7 @@ function initCalculadoraIRAV(opts) {
     const nuevaRenta = renta + subida;
     const difAnual   = subida * 12;
 
-    document.getElementById(opts.pctId).textContent          = indice.toFixed(2);
+    document.getElementById(opts.pctId).textContent          = fmtPct(indice);
     document.getElementById(opts.mesRefId).textContent       = indiceLabel;
     document.getElementById(opts.rentaDisplayId).textContent = fmt(renta);
     document.getElementById(opts.subidaId).textContent       = '+' + fmt(subida) + '/mes';
@@ -261,6 +332,7 @@ function initCalculadoraIRAV(opts) {
 
     const resultEl = document.getElementById(opts.resultId);
     resultEl.classList.add('visible');
+    resultEl.classList.toggle('irav-pendiente', pendiente);
     resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 }

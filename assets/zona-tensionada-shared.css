@@ -258,6 +258,10 @@ input:focus, select:focus {
   border-top: 1px solid rgba(255,255,255,0.15);
   padding-top: 0.6rem;
 }
+.irav-result.irav-pendiente .nota {
+  color: var(--amber);
+  font-weight: 500;
+}
 
 /* ── INFO SECTION ── */
 .info-section { margin-top: 2.5rem; }

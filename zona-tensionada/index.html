@@ -388,6 +388,10 @@
       border-top: 1px solid rgba(255,255,255,0.15);
       padding-top: 0.6rem;
     }
+    .irav-result.irav-pendiente .nota {
+      color: var(--amber);
+      font-weight: 500;
+    }
 
     /* ── CCAA + DESTACADOS (enlazado estático) ── */
     .ccaa-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 2rem; }
@@ -478,12 +482,12 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="tool-badge">Herramienta gratuita · Actualizado junio 2026</div>
+  <div class="tool-badge">Herramienta gratuita · IRAV <span data-irav="mes">julio 2026</span></div>
   <h1>¿Está mi piso en zona tensionada? Calcula la subida máxima legal</h1>
   <p>Verifica el estado de tu municipio y calcula cuánto puedes subir el alquiler con el IRAV oficial del INE.</p>
   <div class="update-banner">
     <span class="dot"></span>
-    <span><strong>Novedad 29/04/2026:</strong> El RDL 8/2026 fue rechazado — desde esa fecha se aplica el IRAV completo sin tope extraordinario del 2%.</span>
+    <span><strong>Último IRAV del INE:</strong> <span data-irav="mes">julio 2026</span>, <span data-irav="pct">2,49%</span>. El de agosto se publica en torno al 15 de septiembre. Hasta entonces, las renovaciones de septiembre se calculan con el último dato y un aviso explícito en el resultado.</span>
   </div>
 </div>
 
@@ -527,7 +531,7 @@
       <div class="result-box result-no-tensionada" id="resultNoTensionada">
         <div class="result-pill pill-orange">⚠ No declarada zona tensionada</div>
         <h3 id="resultNTMunicipioNombre">—</h3>
-        <p>Tu municipio no figura en el registro oficial de zonas de mercado residencial tensionado a junio 2026.</p>
+        <p>Tu municipio no figura en el registro oficial de zonas de mercado residencial tensionado a julio 2026.</p>
         <div class="detail">
           Puedes actualizar el alquiler con el <strong>IRAV</strong> (contratos post-26/05/2023) o el <strong>IPC</strong> (contratos anteriores), según la cláusula de revisión del contrato. Usa la calculadora de la derecha.
           <br><br>
@@ -572,10 +576,10 @@
           <option value="2026-03">Marzo 2026</option>
           <option value="2026-04">Abril 2026</option>
           <option value="2026-05">Mayo 2026</option>
-          <option value="2026-06" selected>Junio 2026</option>
+          <option value="2026-06">Junio 2026</option>
           <option value="2026-07">Julio 2026</option>
           <option value="2026-08">Agosto 2026</option>
-          <option value="2026-09">Septiembre 2026</option>
+          <option value="2026-09" selected>Septiembre 2026</option>
           <option value="2026-10">Octubre 2026</option>
           <option value="2026-11">Noviembre 2026</option>
           <option value="2026-12">Diciembre 2026</option>
@@ -676,8 +680,8 @@
     </div>
 
     <div class="faq-item">
-      <h3>¿Cuál es el IRAV en junio de 2026?</h3>
-      <p>El último IRAV publicado por el INE es el de <strong>junio de 2026: 2,44%</strong> (el de mayo de 2026 fue del 2,48%). Si tu contrato se renueva en julio de 2026, aplicas el IRAV de junio. Si se renueva en otro mes, aplica el IRAV del mes anterior a la fecha de renovación.</p>
+      <h3>¿Cuál es el IRAV vigente?</h3>
+      <p>El último IRAV publicado por el INE es el de <strong><span data-irav="mes">julio 2026</span>: <span data-irav="pct">2,49%</span></strong>. Si tu contrato se renueva en <span data-irav="aplicacion">agosto 2026</span>, aplicas ese índice. Si se renueva en un mes cuyo IRAV aún no ha salido, la calculadora muestra el último dato disponible <strong>con un aviso explícito</strong> — nunca un porcentaje silencioso. El INE publica el índice hacia el día 12-15, referido al mes anterior.</p>
     </div>
 
     <div class="faq-item">
@@ -832,72 +836,12 @@ clearBtn.addEventListener('click', () => {
   input.focus();
 });
 
-// ─────────────────────────────────────────
-// CALCULADORA IRAV
-// ─────────────────────────────────────────
-const tipoContrato  = document.getElementById('tipoContrato');
-const mesRenovacion = document.getElementById('mesRenovacion');
-const mesGroup      = document.getElementById('mesIravGroup');
-
-tipoContrato.addEventListener('change', () => {
-  mesGroup.style.display = tipoContrato.value === 'pre2023' ? 'none' : '';
-});
-
-function fmt(n) {
-  return n.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
-}
-
-document.getElementById('calcularBtn').addEventListener('click', () => {
-  const renta = parseFloat(document.getElementById('rentaActual').value);
-  if (!renta || renta <= 0) {
-    alert('Introduce la renta mensual actual.');
-    return;
-  }
-
-  const tipo = tipoContrato.value;
-  const mes  = mesRenovacion.value;
-
-  let indice, indiceLabel, nota;
-
-  if (tipo === 'pre2023') {
-    // Contratos pre-26/05/2023 → IPC
-    indice = IPC_2026;
-    indiceLabel = `IPC estimado 2026: ${indice}%`;
-    nota = 'Contrato anterior al 26/05/2023: se aplica el IPC como índice de referencia. Desde 2025 ya no existe el tope extraordinario del 3%. El dato del IPC es orientativo; consulta el IPC del mes anterior a tu renovación en ine.es.';
-  } else {
-    // Contratos post-26/05/2023 → IRAV (mes anterior al de renovación)
-    const [year, month] = mes.split('-').map(Number);
-    const prevMonth = month === 1
-      ? `${year - 1}-12`
-      : `${year}-${String(month - 1).padStart(2, '0')}`;
-    const prevLabel = new Date(prevMonth + '-01').toLocaleDateString('es-ES', { month:'long', year:'numeric' });
-
-    if (IRAV[prevMonth] !== undefined) {
-      indice = IRAV[prevMonth];
-      indiceLabel = `IRAV ${prevLabel} (INE): ${indice}%`;
-      nota = `El IRAV que aplica es el del mes anterior a la renovación (${prevLabel}). Dato publicado por el INE. Desde el 29/04/2026 no existe tope extraordinario — se aplica el IRAV completo.`;
-    } else {
-      indice = IRAV[IRAV_ULTIMO_MES_DISPONIBLE];
-      const ultimoLabel = new Date(IRAV_ULTIMO_MES_DISPONIBLE + '-01').toLocaleDateString('es-ES', { month:'long', year:'numeric' });
-      indiceLabel = `IRAV ${ultimoLabel} (INE): ${indice}% — último dato disponible`;
-      nota = `El INE aún no ha publicado el IRAV de ${prevLabel}. Mostrando el último dato disponible (${ultimoLabel}, ${indice.toFixed(2).replace('.', ',')}%) como referencia — verifica en ine.es antes de aplicar la subida.`;
-    }
-  }
-
-  const subida     = renta * indice / 100;
-  const nuevaRenta = renta + subida;
-  const difAnual   = subida * 12;
-
-  document.getElementById('iravPct').textContent       = indice.toFixed(2);
-  document.getElementById('iravMesRef').textContent    = indiceLabel;
-  document.getElementById('rentaActualDisplay').textContent = fmt(renta);
-  document.getElementById('subidaDisplay').textContent      = '+' + fmt(subida) + '/mes';
-  document.getElementById('nuevaRentaDisplay').textContent  = fmt(nuevaRenta);
-  document.getElementById('difAnualDisplay').textContent    = '+' + fmt(difAnual) + '/año';
-  document.getElementById('iravNota').textContent           = nota;
-
-  document.getElementById('iravResult').classList.add('visible');
-  document.getElementById('iravResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+initCalculadoraIRAV({
+  rentaId:'rentaActual', tipoId:'tipoContrato', mesId:'mesRenovacion',
+  mesGroupId:'mesIravGroup', btnId:'calcularBtn', resultId:'iravResult',
+  pctId:'iravPct', mesRefId:'iravMesRef', rentaDisplayId:'rentaActualDisplay',
+  subidaId:'subidaDisplay', nuevaRentaId:'nuevaRentaDisplay',
+  difAnualId:'difAnualDisplay', notaId:'iravNota'
 });
 </script>
 </body>

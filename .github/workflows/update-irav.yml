@@ -1,0 +1,41 @@
+name: Actualizar IRAV
+
+on:
+  schedule:
+    # El INE publica el índice ~día 12-15, referido al mes anterior.
+    - cron: '0 8 13-18 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Descargar IRAV del INE
+        run: node scripts/update-irav.js
+
+      - name: Commit y push si hay dato nuevo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/zona-tensionada-shared.js
+          if git diff --cached --quiet; then
+            echo "Sin cambios"
+            exit 0
+          fi
+          LAST=$(node -e '
+            const s = require("fs").readFileSync("assets/zona-tensionada-shared.js", "utf8");
+            const m = s.match(/IRAV_ULTIMO_MES_DISPONIBLE = "([0-9-]+)"/);
+            if (!m) { process.exit(1); }
+            process.stdout.write(m[1]);
+          ')
+          git commit -m "chore: actualizar IRAV ${LAST} desde el INE"
+          git push
