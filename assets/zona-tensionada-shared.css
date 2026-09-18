@@ -407,7 +407,7 @@ footer {
   margin-top: 3rem;
 }
 footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
-.footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.5rem; }
+.footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.65rem 1.25rem; margin-top: 0.5rem; }
 
 /* ── BOE CONFIRMATION CARD ── */
 .boe-card {

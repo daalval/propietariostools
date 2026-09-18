@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YYNL8M40JY"></script>
+  <!-- Google tag + Consent Mode v2: defaults denied ANTES de gtag.js -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'granted',
+      security_storage: 'granted',
+      wait_for_update: 500
+    });
+    gtag('set', 'ads_data_redaction', true);
+    gtag('set', 'url_passthrough', true);
+  </script>
+  <script src="/assets/consent.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YYNL8M40JY"></script>
+  <script>
     gtag('js', new Date());
     gtag('config', 'G-YYNL8M40JY');
   </script>
@@ -117,6 +131,10 @@
     <a href="/">Inicio</a>
     <a href="/zona-tensionada/">Zona Tensionada</a>
     <a href="/reduccion-irpf-alquiler/">IRPF Alquiler</a>
+    <a href="/aviso-legal/">Aviso legal</a>
+    <a href="/privacidad/">Privacidad</a>
+    <a href="/cookies/">Cookies</a>
+    <a href="/contacto/">Contacto</a>
   </div>
   <div style="margin-top:0.75rem;">Datos: INE (IRAV) · MIVAU (Zonas tensionadas) · Ley 12/2023. Esta herramienta es orientativa y no constituye asesoramiento legal o fiscal.</div>
 </footer>
