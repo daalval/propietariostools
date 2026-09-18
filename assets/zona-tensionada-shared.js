@@ -334,5 +334,207 @@ function initCalculadoraIRAV(opts) {
     resultEl.classList.add('visible');
     resultEl.classList.toggle('irav-pendiente', pendiente);
     resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    renderCartaActualizacion({
+      resultEl, renta, nuevaRenta, subida, indice, tipo, mes, pendiente,
+    });
   });
+}
+
+function municipioDesdePagina() {
+  const bc = document.querySelector('.breadcrumb .bc-current');
+  if (bc) {
+    const t = bc.textContent.trim();
+    if (t) return t;
+  }
+  const tensionada = document.getElementById('resultTensionada');
+  const nombre = document.getElementById('resultMunicipioNombre');
+  if (tensionada && tensionada.classList.contains('visible') && nombre) {
+    return nombre.textContent.split(',')[0].trim();
+  }
+  return '';
+}
+
+function fechaCartaLarga(d) {
+  return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function fmtCarta(n) {
+  return n.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+}
+
+function textoCartaActualizacion(d) {
+  const inquilino = d.inquilino || 'arrendatario/a';
+  const arrendador = d.arrendador || 'El/la arrendador/a';
+  const vivienda = d.direccion
+    ? `la vivienda sita en ${d.direccion}`
+    : 'la vivienda objeto del contrato de arrendamiento';
+  const loc = d.municipio ? `${d.municipio}, a ${d.fecha}` : `A ${d.fecha}`;
+  const indiceLinea = d.tipo === 'pre2023'
+    ? `IPC ${fmtPct(d.indice)} % (contratos anteriores al 26/05/2023). Antes de enviar, sustituya este porcentaje por el IPC oficial del mes anterior a la renovación publicado en ine.es`
+    : `${d.indiceNombre}`;
+
+  return [
+    loc + '.',
+    '',
+    `Estimado/a ${inquilino}:`,
+    '',
+    `Me dirijo a usted como arrendador/a de ${vivienda} para comunicarle la actualización anual de la renta, de conformidad con el artículo 18 de la Ley 29/1994, de 24 de noviembre, de Arrendamientos Urbanos, y con la cláusula de actualización prevista en el contrato.`,
+    '',
+    `• Renta actual: ${fmtCarta(d.renta)}/mes`,
+    `• Índice aplicado: ${indiceLinea}`,
+    `• Incremento: ${fmtPct(d.indice)} % (${fmtCarta(d.subida)}/mes)`,
+    `• Nueva renta: ${fmtCarta(d.nuevaRenta)}/mes`,
+    '',
+    `Esta actualización se corresponde con la anualidad que se cumple en ${d.mesAniversario}. Según el artículo 18.2 de la LAU, la renta actualizada será exigible a partir del mes siguiente a esta notificación por escrito. La notificación también es válida mediante nota en el recibo de la mensualidad precedente.`,
+    '',
+    'Si lo desea, puede solicitar la certificación del Instituto Nacional de Estadística acreditativa del índice aplicado.',
+    '',
+    'Atentamente,',
+    arrendador,
+  ].join('\n');
+}
+
+function ensureCartaActualizacion(resultEl) {
+  let wrap = document.getElementById('cartaUpdate');
+  if (wrap) return wrap;
+
+  wrap = document.createElement('div');
+  wrap.id = 'cartaUpdate';
+  wrap.className = 'carta-update';
+  wrap.hidden = true;
+  wrap.innerHTML = `
+    <div class="carta-label">Siguiente paso</div>
+    <h3>Carta de actualización de renta</h3>
+    <p class="carta-lead">Texto listo para enviar al inquilino. Completa los datos si quieres personalizarlo; si los dejas en blanco, el escrito lleva huecos para rellenar a mano.</p>
+    <div class="carta-aviso" id="cartaAviso" hidden></div>
+    <div class="carta-fields" id="cartaFields">
+      <div class="field-group">
+        <label for="cartaArrendador">Tu nombre (arrendador)</label>
+        <input type="text" id="cartaArrendador" placeholder="Opcional" autocomplete="name">
+      </div>
+      <div class="field-group">
+        <label for="cartaInquilino">Nombre del inquilino</label>
+        <input type="text" id="cartaInquilino" placeholder="Opcional" autocomplete="off">
+      </div>
+      <div class="field-group carta-field-wide">
+        <label for="cartaDireccion">Dirección de la vivienda</label>
+        <input type="text" id="cartaDireccion" placeholder="Opcional — calle, número, piso" autocomplete="street-address">
+      </div>
+    </div>
+    <label for="cartaTexto">Texto de la comunicación</label>
+    <textarea id="cartaTexto" rows="16" readonly></textarea>
+    <div class="carta-actions" id="cartaActions">
+      <button type="button" class="btn" id="cartaCopiar">Copiar texto</button>
+      <button type="button" class="btn btn-secondary" id="cartaDescargar">Descargar .txt</button>
+    </div>
+    <p class="carta-legal">La renta actualizada es exigible <strong>a partir del mes siguiente</strong> a la notificación por escrito (art. 18.2 LAU). Solo procede si el contrato tiene cláusula de actualización (art. 18.1). Plantilla orientativa: no constituye asesoramiento jurídico.</p>
+  `;
+
+  const card = resultEl.closest('.card') || resultEl.parentElement;
+  const grid = card && card.parentElement && card.parentElement.classList.contains('tools-grid')
+    ? card.parentElement
+    : null;
+  (grid || card).insertAdjacentElement('afterend', wrap);
+
+  const redraw = () => {
+    if (wrap._datos) pintarCarta(wrap._datos);
+  };
+  ['cartaArrendador', 'cartaInquilino', 'cartaDireccion'].forEach(id => {
+    wrap.querySelector('#' + id).addEventListener('input', redraw);
+  });
+
+  wrap.querySelector('#cartaCopiar').addEventListener('click', async () => {
+    const text = wrap.querySelector('#cartaTexto').value;
+    if (!text) return;
+    const btn = wrap.querySelector('#cartaCopiar');
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(text);
+      ok = true;
+    } catch {
+      const ta = wrap.querySelector('#cartaTexto');
+      ta.removeAttribute('readonly');
+      ta.select();
+      ok = document.execCommand('copy');
+      ta.setAttribute('readonly', '');
+    }
+    btn.textContent = ok ? 'Copiado' : 'No se pudo copiar';
+    setTimeout(() => { btn.textContent = 'Copiar texto'; }, 1800);
+  });
+
+  wrap.querySelector('#cartaDescargar').addEventListener('click', () => {
+    const text = wrap.querySelector('#cartaTexto').value;
+    if (!text) return;
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'actualizacion-renta-' + (wrap._datos && wrap._datos.mes ? wrap._datos.mes : 'alquiler') + '.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  return wrap;
+}
+
+function pintarCarta(datos) {
+  const wrap = document.getElementById('cartaUpdate');
+  if (!wrap) return;
+  wrap._datos = datos;
+
+  const aviso = wrap.querySelector('#cartaAviso');
+  const fields = wrap.querySelector('#cartaFields');
+  const ta = wrap.querySelector('#cartaTexto');
+  const actions = wrap.querySelector('#cartaActions');
+  const taLabel = wrap.querySelector('label[for="cartaTexto"]');
+
+  wrap.hidden = false;
+
+  const lead = wrap.querySelector('.carta-lead');
+
+  if (datos.pendiente) {
+    aviso.hidden = false;
+    aviso.textContent = `El INE aún no ha publicado el IRAV de ${mesLabelEs(mesOffset(datos.mes, -1))}. No generamos la carta con un índice provisional: espera a la publicación oficial (~día 12-15) o verifica el dato en ine.es antes de notificar al inquilino.`;
+    if (lead) lead.hidden = true;
+    fields.hidden = true;
+    ta.hidden = true;
+    if (taLabel) taLabel.hidden = true;
+    actions.hidden = true;
+    return;
+  }
+
+  aviso.hidden = true;
+  if (lead) lead.hidden = false;
+  fields.hidden = false;
+  ta.hidden = false;
+  if (taLabel) taLabel.hidden = false;
+  actions.hidden = false;
+
+  const arrendador = wrap.querySelector('#cartaArrendador').value.trim();
+  const inquilino = wrap.querySelector('#cartaInquilino').value.trim();
+  const direccion = wrap.querySelector('#cartaDireccion').value.trim();
+  const municipio = municipioDesdePagina();
+  const prevMonth = mesOffset(datos.mes, -1);
+
+  ta.value = textoCartaActualizacion({
+    fecha: fechaCartaLarga(new Date()),
+    municipio,
+    inquilino,
+    arrendador,
+    direccion,
+    renta: datos.renta,
+    nuevaRenta: datos.nuevaRenta,
+    subida: datos.subida,
+    indice: datos.indice,
+    tipo: datos.tipo,
+    mesAniversario: mesLabelEs(datos.mes),
+    indiceNombre: datos.tipo === 'pre2023'
+      ? `IPC estimado ${fmtPct(datos.indice)} %`
+      : `IRAV de ${mesLabelEs(prevMonth)} publicado por el INE (${fmtPct(datos.indice)} %)`,
+  });
+}
+
+function renderCartaActualizacion(datos) {
+  ensureCartaActualizacion(datos.resultEl);
+  pintarCarta(datos);
 }
