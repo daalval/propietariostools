@@ -192,7 +192,7 @@ const IRAV = {
   "2026-01": 2.14, "2026-02": 2.16, "2026-03": 2.47, "2026-04": 2.40,
   "2026-05": 2.48, "2026-06": 2.44, "2026-07": 2.49, "2026-08": 2.47,
   "2026-09": 2.54,
-  // 2026-10: aún no publicado por el INE a 2026-10-14.
+  // 2026-10: aún no publicado por el INE a 2026-10-15.
 };
 const IRAV_ULTIMO_MES_DISPONIBLE = "2026-09";
 const IRAV_EJEMPLO_RENTA = 900;
